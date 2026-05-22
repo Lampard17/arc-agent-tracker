@@ -1,15 +1,4 @@
 {
   "name": "arc-agent-tracker",
-  "version": "1.0.0",
-  "description": "Live wallet tracker for AI agent wallets on Arc testnet",
-  "scripts": {
-    "dev": "vercel dev",
-    "deploy": "vercel --prod"
-  },
-  "devDependencies": {
-    "vercel": "^37.0.0"
-  },
-  "engines": {
-    "node": ">=18"
-  }
+  "version": "1.0.0"
 }
