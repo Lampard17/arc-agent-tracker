@@ -1,7 +1,4 @@
 {
-  "version": 2,
-  "routes": [
-    { "src": "/api/rpc", "dest": "/api/rpc.js" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
+  "cleanUrls": true,
+  "trailingSlash": false
 }
