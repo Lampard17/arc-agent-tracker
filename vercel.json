@@ -1,6 +1,11 @@
 {
-  "outputDirectory": "public",
-  "rewrites": [
-    { "source": "/api/rpc", "destination": "/api/rpc.js" }
+  "version": 2,
+  "builds": [
+    { "src": "public/index.html", "use": "@vercel/static" },
+    { "src": "api/rpc.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/api/rpc", "dest": "/api/rpc.js" },
+    { "src": "/(.*)", "dest": "/public/index.html" }
   ]
 }
