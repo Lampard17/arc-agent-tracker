@@ -6,43 +6,51 @@
 <title>Arc Agent Tracker</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-height:100vh;font-size:14px}
-.app{max-width:900px;margin:0 auto;padding:24px 16px}
-.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
-.logo{display:flex;align-items:center;gap:10px}
-.logo-icon{width:32px;height:32px;border-radius:50%;background:#1D9E75;display:flex;align-items:center;justify-content:center;font-size:16px}
-.logo-text{font-size:16px;font-weight:600}
-.logo-sub{font-size:12px;color:#9090a8}
+body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-height:100vh;font-size:14px;padding-bottom:70px}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#18181f;border-top:1px solid rgba(255,255,255,0.08);display:flex;z-index:100}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 0;cursor:pointer;color:#5a5a72;transition:color .15s;font-size:10px;gap:4px;border:none;background:none}
+.nav-item.active{color:#1D9E75}
+.nav-icon{font-size:20px;line-height:1}
+.page{display:none;padding:16px}
+.page.active{display:block}
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.page-title{font-size:18px;font-weight:600}
+.page-sub{font-size:12px;color:#5a5a72;margin-top:2px}
 .badge{font-size:11px;padding:4px 10px;border-radius:20px;font-weight:500}
 .badge-ok{background:#0a2e22;color:#5DCAA5;border:1px solid #1D9E75}
 .badge-wait{background:#2e1e06;color:#EF9F27;border:1px solid #EF9F27}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px}
+.badge-err{background:#2e100a;color:#F0997B;border:1px solid #F0997B}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:20px}
 .stat{background:#18181f;border-radius:8px;padding:12px 14px}
 .stat-label{font-size:11px;color:#5a5a72;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
-.stat-val{font-size:20px;font-weight:600;color:#f0f0f5}
+.stat-val{font-size:18px;font-weight:600}
 .stat-val.green{color:#1D9E75}
-.add-section{background:#18181f;border-radius:10px;padding:16px;margin-bottom:16px}
-.add-label{font-size:11px;color:#5a5a72;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
-.add-row{display:flex;gap:8px}
-.addr-input{flex:1;height:38px;padding:0 12px;border:1px solid rgba(255,255,255,0.12);border-radius:6px;background:#0f0f12;color:#f0f0f5;font-size:12px;font-family:monospace}
-.addr-input:focus{outline:none;border-color:#1D9E75}
-.addr-input::placeholder{font-family:system-ui;color:#5a5a72;font-size:13px}
-.btn{height:38px;padding:0 16px;border:none;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer}
+.card{background:#18181f;border-radius:10px;padding:16px;margin-bottom:12px}
+.card-title{font-size:12px;font-weight:500;color:#5a5a72;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.input{width:100%;height:40px;padding:0 12px;border:1px solid rgba(255,255,255,0.12);border-radius:8px;background:#0f0f12;color:#f0f0f5;font-size:13px}
+.input:focus{outline:none;border-color:#1D9E75}
+.input::placeholder{color:#5a5a72}
+.input-label{font-size:12px;color:#9090a8;margin-bottom:6px}
+.input-wrap{margin-bottom:12px}
+.btn{height:40px;padding:0 16px;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;width:100%}
 .btn-green{background:#1D9E75;color:#fff}
 .btn-green:hover{background:#17866a}
-.err{margin-top:8px;padding:6px 10px;background:#2e100a;color:#F0997B;border-radius:6px;font-size:12px}
-.agents{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
-.agent-card{background:#18181f;border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:14px;cursor:pointer;transition:border-color .15s}
+.btn-green:disabled{opacity:.4;cursor:not-allowed}
+.btn-outline{background:none;border:1px solid rgba(255,255,255,0.12);color:#9090a8}
+.btn-outline:hover{background:#22222c}
+.btn-row{display:flex;gap:8px}
+.btn-row .btn{flex:1}
+.agent-card{background:#18181f;border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:14px;cursor:pointer;margin-bottom:8px;transition:border-color .15s}
 .agent-card:hover{border-color:rgba(255,255,255,0.15)}
 .agent-card.active{border-color:#1D9E75}
 .agent-row{display:flex;align-items:center;gap:10px}
-.avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0}
 .agent-info{flex:1;min-width:0}
 .agent-name{font-size:14px;font-weight:500;margin-bottom:2px;display:flex;align-items:center;gap:6px}
 .agent-addr{font-size:11px;color:#5a5a72;font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .agent-right{text-align:right;flex-shrink:0}
-.agent-bal{font-size:14px;font-weight:500}
-.agent-nonce{font-size:11px;color:#5a5a72;margin-top:2px}
+.agent-bal{font-size:13px;font-weight:500;color:#f0f0f5}
+.agent-eth{font-size:11px;color:#5a5a72;margin-top:2px}
 .tags{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap}
 .tag{font-size:11px;padding:2px 8px;border-radius:20px}
 .tag-green{background:#0a2e22;color:#5DCAA5}
@@ -52,210 +60,237 @@ body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-heigh
 .tag-gray{background:#22222c;color:#9090a8}
 .spin{display:inline-block;animation:rot 1s linear infinite}
 @keyframes rot{to{transform:rotate(360deg)}}
-.btn-rm{background:none;border:none;cursor:pointer;color:#5a5a72;padding:4px;border-radius:4px;font-size:14px;line-height:1}
+.btn-rm{background:none;border:none;cursor:pointer;color:#5a5a72;padding:4px;border-radius:4px;font-size:14px}
 .btn-rm:hover{color:#F0997B;background:#2e100a}
-.detail{background:#18181f;border-radius:10px;overflow:hidden}
-.detail-header{padding:20px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
-.detail-name{font-size:17px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:8px}
-.detail-addr{font-size:11px;color:#5a5a72;font-family:monospace;word-break:break-all}
-.detail-bal{font-size:28px;font-weight:600;white-space:nowrap}
-.detail-bal-label{font-size:12px;color:#5a5a72;text-align:right;margin-top:2px}
-.detail-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,0.07);border-bottom:1px solid rgba(255,255,255,0.07)}
-.meta-item{background:#18181f;padding:14px 16px}
-.meta-label{font-size:11px;color:#5a5a72;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
-.meta-val{font-size:14px;font-weight:500}
-.meta-link{color:#1D9E75;text-decoration:none;font-size:13px}
-.meta-link:hover{text-decoration:underline}
-.tx-section{padding:16px 20px}
-.tx-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.tx-title{font-size:11px;color:#5a5a72;text-transform:uppercase;letter-spacing:.05em}
-.btn-ref{background:none;border:1px solid rgba(255,255,255,0.12);color:#9090a8;padding:4px 12px;border-radius:6px;font-size:12px;cursor:pointer}
-.btn-ref:hover{background:#22222c}
-.tx-list{display:flex;flex-direction:column}
+.meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.meta-item{background:#22222c;border-radius:8px;padding:10px 12px}
+.meta-label{font-size:11px;color:#5a5a72;margin-bottom:3px}
+.meta-val{font-size:13px;font-weight:500}
 .tx-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
 .tx-row:last-child{border-bottom:none}
-.tx-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px}
+.tx-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px}
 .tx-icon.out{background:#2e100a}
 .tx-icon.in{background:#0a2e22}
 .tx-icon.self{background:#0a1e38}
 .tx-info{flex:1;min-width:0}
-.tx-hash{font-size:12px;font-family:monospace;color:#f0f0f5;text-decoration:none;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tx-hash{font-size:11px;font-family:monospace;color:#f0f0f5;text-decoration:none;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tx-hash:hover{color:#1D9E75}
-.tx-meta{font-size:11px;color:#5a5a72;margin-top:2px}
-.tx-amt{font-size:13px;font-weight:500;flex-shrink:0}
+.tx-meta{font-size:11px;color:#5a5a72;margin-top:1px}
+.tx-amt{font-size:12px;font-weight:500;flex-shrink:0;text-align:right}
 .tx-amt.out{color:#F0997B}
 .tx-amt.in{color:#1D9E75}
 .tx-amt.self{color:#6EB3F7}
-.center{text-align:center;padding:24px;color:#5a5a72;font-size:13px}
-.faucet{margin:0 0 12px;padding:10px 14px;background:#0a1e38;border-radius:6px;font-size:12px;color:#6EB3F7}
-.faucet a{color:#6EB3F7;font-weight:500}
-.empty-main{text-align:center;padding:60px 20px;color:#5a5a72}
-.empty-main h2{font-size:16px;font-weight:500;color:#9090a8;margin-bottom:8px}
-@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}.detail-meta{grid-template-columns:1fr 1fr}}
+.wallet-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#18181f;border-radius:10px;margin-bottom:16px}
+.wallet-bar-left{font-size:13px;color:#9090a8}
+.wallet-addr{font-size:12px;font-family:monospace;color:#f0f0f5;margin-top:2px}
+.select{width:100%;height:40px;padding:0 12px;border:1px solid rgba(255,255,255,0.12);border-radius:8px;background:#0f0f12;color:#f0f0f5;font-size:13px}
+.select:focus{outline:none;border-color:#1D9E75}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);padding:10px 18px;border-radius:8px;font-size:13px;font-weight:500;z-index:999;white-space:nowrap;animation:fadein .2s}
+@keyframes fadein{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.toast-ok{background:#0a2e22;color:#5DCAA5;border:1px solid #1D9E75}
+.toast-err{background:#2e100a;color:#F0997B;border:1px solid #F0997B}
+.toast-info{background:#0a1e38;color:#6EB3F7;border:1px solid #6EB3F7}
+.center{text-align:center;padding:32px 16px;color:#5a5a72;font-size:13px}
+.sep{height:1px;background:rgba(255,255,255,0.06);margin:12px 0}
+.mono{font-family:monospace}
+.err-box{padding:8px 12px;background:#2e100a;color:#F0997B;border-radius:6px;font-size:12px;margin-top:8px}
+.step{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px}
+.step-num{width:22px;height:22px;border-radius:50%;background:#1D9E75;color:#fff;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-text{font-size:13px;color:#9090a8;line-height:1.5}
+.tx-pending{padding:12px;background:#0a1e38;border-radius:8px;font-size:12px;color:#6EB3F7;margin-top:8px;word-break:break-all}
 </style>
 </head>
 <body>
-<div class="app">
-  <div class="header">
-    <div class="logo">
-      <div class="logo-icon">⬡</div>
-      <div>
-        <div class="logo-text">Arc Agent Tracker</div>
-        <div class="logo-sub">Live on-chain · Arc testnet</div>
-      </div>
+<div class="page active" id="page-dashboard">
+  <div class="page-header">
+    <div>
+      <div class="page-title">⬡ Arc Agent Tracker</div>
+      <div class="page-sub">Live on-chain · Arc testnet</div>
     </div>
-    <div class="badge badge-wait" id="nb">Connecting…</div>
+    <div class="badge badge-wait" id="net-badge">Connecting…</div>
   </div>
   <div class="stats">
-    <div class="stat"><div class="stat-label">Total balance</div><div class="stat-val" id="s1">—</div></div>
-    <div class="stat"><div class="stat-label">Wallets tracked</div><div class="stat-val green" id="s2">0</div></div>
-    <div class="stat"><div class="stat-label">Latest block</div><div class="stat-val" id="s3">—</div></div>
-    <div class="stat"><div class="stat-label">Chain ID</div><div class="stat-val">5042002</div></div>
+    <div class="stat"><div class="stat-label">Total USDC</div><div class="stat-val green" id="d-usdc">—</div></div>
+    <div class="stat"><div class="stat-label">Total ETH</div><div class="stat-val" id="d-eth">—</div></div>
+    <div class="stat"><div class="stat-label">Agents tracked</div><div class="stat-val green" id="d-count">0</div></div>
+    <div class="stat"><div class="stat-label">Latest block</div><div class="stat-val" id="d-block">—</div></div>
   </div>
-  <div class="add-section">
-    <div class="add-label">Track a wallet</div>
-    <div class="add-row">
-      <input class="addr-input" id="ai" type="text" placeholder="0x… Arc testnet wallet address"/>
-      <button class="btn btn-green" onclick="addAgent()">+ Track</button>
+  <div class="card">
+    <div class="card-title">Network info</div>
+    <div class="meta-grid">
+      <div class="meta-item"><div class="meta-label">Chain ID</div><div class="meta-val">5042002</div></div>
+      <div class="meta-item"><div class="meta-label">Network</div><div class="meta-val">Arc testnet</div></div>
+      <div class="meta-item"><div class="meta-label">USDC contract</div><div class="meta-val mono" style="font-size:10px">0x36000…0000</div></div>
+      <div class="meta-item"><div class="meta-label">Explorer</div><div class="meta-val"><a href="https://testnet.arcscan.app" target="_blank" style="color:#1D9E75;text-decoration:none;font-size:12px">Arcscan →</a></div></div>
     </div>
-    <div id="em"></div>
   </div>
-  <div class="agents" id="al"></div>
-  <div id="dp"></div>
+  <div class="card">
+    <div class="card-title">Quick start</div>
+    <div class="step"><div class="step-num">1</div><div class="step-text">Go to <strong>Agents</strong> tab and add your Arc testnet wallet address</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-text">Get free testnet funds at <a href="https://faucet.circle.com" target="_blank" style="color:#1D9E75">faucet.circle.com</a></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-text">Use <strong>Transfer</strong> tab to send USDC between wallets</div></div>
+  </div>
 </div>
+<div class="page" id="page-agents">
+  <div class="page-header">
+    <div><div class="page-title">Agents</div><div class="page-sub">Track wallet addresses</div></div>
+    <button class="badge badge-ok" onclick="showAddAgent()" style="cursor:pointer;border:none">+ Add</button>
+  </div>
+  <div class="card" id="add-form" style="display:none">
+    <div class="card-title">Add agent wallet</div>
+    <div class="input-wrap"><div class="input-label">Wallet address</div><input class="input mono" id="add-addr" placeholder="0x… Arc testnet address"/></div>
+    <div class="input-wrap"><div class="input-label">Label (optional)</div><input class="input" id="add-name" placeholder="e.g. Research Agent"/></div>
+    <div class="btn-row">
+      <button class="btn btn-outline" onclick="hideAddAgent()">Cancel</button>
+      <button class="btn btn-green" onclick="addAgent()">Track wallet</button>
+    </div>
+    <div id="add-err"></div>
+  </div>
+  <div id="agent-list"></div>
+  <div id="agent-detail"></div>
+</div>
+<div class="page" id="page-transfer">
+  <div class="page-header">
+    <div><div class="page-title">Transfer</div><div class="page-sub">Send USDC on Arc testnet</div></div>
+  </div>
+  <div id="wallet-section">
+    <div class="card">
+      <div class="card-title">Connect wallet</div>
+      <p style="font-size:13px;color:#9090a8;margin-bottom:14px;line-height:1.6">Connect MetaMask to sign and send USDC transactions directly from this app.</p>
+      <button class="btn btn-green" onclick="connectWallet()" id="connect-btn">Connect MetaMask</button>
+      <div id="connect-err"></div>
+    </div>
+  </div>
+  <div id="transfer-form" style="display:none">
+    <div class="wallet-bar">
+      <div>
+        <div class="wallet-bar-left">Connected wallet</div>
+        <div class="wallet-addr" id="connected-addr">—</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:11px;color:#5a5a72">USDC balance</div>
+        <div style="font-size:14px;font-weight:600;color:#1D9E75" id="connected-usdc">—</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Send USDC</div>
+      <div class="input-wrap">
+        <div class="input-label">From (connected wallet)</div>
+        <input class="input mono" id="from-addr" readonly style="opacity:.6"/>
+      </div>
+      <div class="input-wrap">
+        <div class="input-label">To address</div>
+        <select class="select" id="to-select" onchange="onToChange()">
+          <option value="">Select tracked agent or enter address…</option>
+        </select>
+      </div>
+      <div class="input-wrap" id="custom-to-wrap" style="display:none">
+        <div class="input-label">Custom recipient address</div>
+        <input class="input mono" id="custom-to" placeholder="0x…"/>
+      </div>
+      <div class="input-wrap">
+        <div class="input-label">Amount (USDC)</div>
+        <input class="input" id="send-amount" type="number" placeholder="0.00" min="0" step="0.01"/>
+      </div>
+      <button class="btn btn-green" onclick="sendUSDC()" id="send-btn">Send USDC</button>
+      <div id="send-err"></div>
+      <div id="tx-result"></div>
+    </div>
+  </div>
+</div>
+<div class="page" id="page-settings">
+  <div class="page-header">
+    <div><div class="page-title">Settings</div><div class="page-sub">Preferences & info</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Add Arc testnet to MetaMask</div>
+    <div class="meta-grid">
+      <div class="meta-item"><div class="meta-label">Network name</div><div class="meta-val">Arc Testnet</div></div>
+      <div class="meta-item"><div class="meta-label">Chain ID</div><div class="meta-val">5042002</div></div>
+      <div class="meta-item" style="grid-column:1/-1"><div class="meta-label">RPC URL</div><div class="meta-val mono" style="font-size:11px;word-break:break-all">https://rpc.testnet.arc.network</div></div>
+      <div class="meta-item"><div class="meta-label">Currency</div><div class="meta-val">ETH</div></div>
+      <div class="meta-item"><div class="meta-label">Explorer</div><div class="meta-val mono" style="font-size:11px">testnet.arcscan.app</div></div>
+    </div>
+    <button class="btn btn-green" onclick="addArcToMetaMask()">Add to MetaMask</button>
+  </div>
+  <div class="card">
+    <div class="card-title">Tracked agents</div>
+    <div id="settings-agents"></div>
+    <div class="sep"></div>
+    <button class="btn btn-outline" onclick="clearAllAgents()" style="color:#F0997B;border-color:#F0997B">Clear all agents</button>
+  </div>
+  <div class="card">
+    <div class="card-title">About</div>
+    <div style="font-size:13px;color:#9090a8;line-height:1.7">
+      <div>Built on Arc testnet (Chain 5042002)</div>
+      <div>USDC: 0x3600000000000000000000000000000000000000</div>
+      <div style="margin-top:8px"><a href="https://testnet.arcscan.app" target="_blank" style="color:#1D9E75">Arcscan →</a></div>
+      <div><a href="https://faucet.circle.com" target="_blank" style="color:#1D9E75">Circle Faucet →</a></div>
+    </div>
+  </div>
+</div>
+<nav class="nav">
+  <button class="nav-item active" onclick="goPage('dashboard',this)"><div class="nav-icon">🏠</div>Dashboard</button>
+  <button class="nav-item" onclick="goPage('agents',this)"><div class="nav-icon">🤖</div>Agents</button>
+  <button class="nav-item" onclick="goPage('transfer',this)"><div class="nav-icon">💸</div>Transfer</button>
+  <button class="nav-item" onclick="goPage('settings',this)"><div class="nav-icon">⚙️</div>Settings</button>
+</nav>
 <script>
 const EXP="https://testnet.arcscan.app";
-const RPC="/api/rpc";
-let agents=[],sel=null;
+const RPC_PROXY="/api/rpc";
+const USDC="0x3600000000000000000000000000000000000000";
+const CHAIN_HEX="0x4CDDB2";
 const PAL=[["#1D9E75","#0a2e22"],["#6EB3F7","#0a1e38"],["#B07EF5","#1e1040"],["#F5A623","#2e1e06"],["#F0997B","#2e100a"]];
+let agents=[],selId=null,connectedAddr=null;
 async function rpc(m,p=[]){
-  const r=await fetch(RPC,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:m,params:p})});
+  const r=await fetch(RPC_PROXY,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:m,params:p})});
   if(!r.ok)throw new Error("HTTP "+r.status);
   const d=await r.json();
   if(d.error)throw new Error(d.error.message);
   return d.result;
 }
 const h2d=h=>parseInt(h,16);
-const w2e=h=>parseInt(h,16)/1e18;
 const sa=a=>a.slice(0,8)+"…"+a.slice(-6);
 const sh=h=>h.slice(0,10)+"…"+h.slice(-6);
 function ago(ts){if(!ts)return"?";const d=Math.floor(Date.now()/1000)-ts;if(d<60)return d+"s ago";if(d<3600)return Math.floor(d/60)+"m ago";if(d<86400)return Math.floor(d/3600)+"h ago";return Math.floor(d/86400)+"d ago";}
+function toast(msg,type="info"){const t=document.createElement("div");t.className=`toast toast-${type}`;t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),3000);}
+function goPage(name,btn){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".nav-item").forEach(b=>b.classList.remove("active"));
+  document.getElementById("page-"+name).classList.add("active");
+  btn.classList.add("active");
+  if(name==="transfer")refreshTransferForm();
+  if(name==="settings")renderSettings();
+}
 async function ping(){
   try{
     const b=await rpc("eth_blockNumber");
-    document.getElementById("s3").textContent=h2d(b).toLocaleString();
-    document.getElementById("nb").textContent="Arc testnet · live";
-    document.getElementById("nb").className="badge badge-ok";
+    document.getElementById("d-block").textContent=h2d(b).toLocaleString();
+    document.getElementById("net-badge").textContent="Arc testnet · live";
+    document.getElementById("net-badge").className="badge badge-ok";
   }catch(e){
-    document.getElementById("nb").textContent="RPC offline";
-    document.getElementById("nb").className="badge badge-wait";
+    document.getElementById("net-badge").textContent="RPC offline";
+    document.getElementById("net-badge").className="badge badge-err";
   }
 }
-function stats(){
-  const ld=agents.filter(a=>a.ok);
-  document.getElementById("s1").textContent=ld.length?ld.reduce((s,a)=>s+a.bal,0).toFixed(4)+" ETH":"—";
-  document.getElementById("s2").textContent=agents.length;
-}
-function renderList(){
-  const el=document.getElementById("al");
-  if(!agents.length){el.innerHTML='<div class="center">Add a wallet address above to start tracking.</div>';return;}
-  el.innerHTML=agents.map(a=>{
-    const[c,bg]=PAL[a.ci];
-    const ini=a.name.split(" ").map(w=>w[0]).slice(0,2).join("");
-    let bt="—",tc="tag-amber",tt="loading";
-    if(a.err){tc="tag-red";tt="error";}
-    else if(a.ok){bt=a.bal.toFixed(4)+" ETH";tc="tag-green";tt="live";}
-    return`<div class="agent-card${a.id===sel?" active":""}" onclick="pick(${a.id})">
-      <div class="agent-row">
-        <div class="avatar" style="background:${bg};color:${c}">${ini}</div>
-        <div class="agent-info">
-          <div class="agent-name">${a.name}${a.loading?'<span class="spin">↻</span>':""}</div>
-          <div class="agent-addr">${sa(a.addr)}</div>
-        </div>
-        <div class="agent-right">
-          <div class="agent-bal">${bt}</div>
-          ${a.ok?`<div class="agent-nonce">nonce: ${a.nonce}</div>`:""}
-        </div>
-        <button class="btn-rm" onclick="event.stopPropagation();rm(${a.id})">✕</button>
-      </div>
-      <div class="tags">
-        <span class="tag ${tc}">${tt}</span>
-        <span class="tag tag-blue">chain 5042002</span>
-        <span class="tag tag-gray">${a.addr.slice(0,8)}…</span>
-      </div>
-      ${a.err?`<div class="err">${a.err}</div>`:""}
-    </div>`;
-  }).join("");
-}
-function renderDetail(){
-  const dp=document.getElementById("dp");
-  const a=agents.find(x=>x.id===sel);
-  if(!a){dp.innerHTML='<div class="empty-main"><h2>No wallet selected</h2><p>Add an Arc testnet address above to see live data.</p></div>';return;}
-  const[c,bg]=PAL[a.ci];
-  const ini=a.name.split(" ").map(w=>w[0]).slice(0,2).join("");
-  let txhtml="";
-  if(a.txl)txhtml='<div class="center"><span class="spin" style="font-size:20px">↻</span><br>Scanning blocks…</div>';
-  else if(!a.txs)txhtml='<div class="center">Click refresh to load transactions.</div>';
-  else if(!a.txs.length)txhtml=`<div class="center">No transactions found in last 150 blocks.<br><a href="${EXP}/address/${a.addr}" target="_blank" class="meta-link">View full history on Arcscan →</a></div>`;
-  else txhtml=`<div class="tx-list">`+a.txs.map(tx=>{
-    const al=a.addr.toLowerCase();
-    let dir="self";
-    if(tx.from?.toLowerCase()===al&&tx.to?.toLowerCase()!==al)dir="out";
-    else if(tx.to?.toLowerCase()===al&&tx.from?.toLowerCase()!==al)dir="in";
-    const ico=dir==="out"?"↗":dir==="in"?"↙":"⇄";
-    const val=parseInt(tx.value,16)/1e18;
-    const cp=dir==="out"?(tx.to?sa(tx.to):"contract"):(tx.from?sa(tx.from):"?");
-    const lbl=dir==="out"?`To ${cp}`:dir==="in"?`From ${cp}`:"Self";
-    const amt=(dir==="out"?"−":dir==="in"?"+":"")+val.toFixed(6)+" ETH";
-    return`<div class="tx-row">
-      <div class="tx-icon ${dir}">${ico}</div>
-      <div class="tx-info">
-        <a href="${EXP}/tx/${tx.hash}" target="_blank" class="tx-hash">${sh(tx.hash)}</a>
-        <div class="tx-meta">${lbl} · ${ago(tx.ts)}</div>
-      </div>
-      <div class="tx-amt ${dir}">${amt}</div>
-    </div>`;
-  }).join("")+"</div>";
-  dp.innerHTML=`<div class="detail">
-    <div class="detail-header">
-      <div style="display:flex;align-items:flex-start;gap:12px">
-        <div class="avatar" style="background:${bg};color:${c};width:44px;height:44px;font-size:14px">${ini}</div>
-        <div>
-          <div class="detail-name">${a.name} <span class="tag ${a.ok?"tag-green":a.err?"tag-red":"tag-amber"}">${a.ok?"live":a.err?"error":"loading"}</span></div>
-          <div class="detail-addr">${a.addr}</div>
-        </div>
-      </div>
-      <div>
-        <div class="detail-bal">${a.ok?a.bal.toFixed(6):"—"}</div>
-        <div class="detail-bal-label">ETH · Arc testnet</div>
-      </div>
-    </div>
-    <div class="detail-meta">
-      <div class="meta-item"><div class="meta-label">Txs sent</div><div class="meta-val">${a.ok?a.nonce:"—"}</div></div>
-      <div class="meta-item"><div class="meta-label">Network</div><div class="meta-val">Arc testnet</div></div>
-      <div class="meta-item"><div class="meta-label">Explorer</div><div class="meta-val"><a href="${EXP}/address/${a.addr}" target="_blank" class="meta-link">Arcscan →</a></div></div>
-    </div>
-    <div class="tx-section">
-      <div class="faucet">ℹ Get free testnet funds at <a href="https://faucet.circle.com" target="_blank">faucet.circle.com</a></div>
-      <div class="tx-header">
-        <div class="tx-title">Transaction history</div>
-        <button class="btn-ref" onclick="ref(${a.id})">↻ Refresh</button>
-      </div>
-      ${txhtml}
-    </div>
-  </div>`;
-}
-async function loadW(a){
-  a.loading=true;a.err=null;renderList();
+async function getUSDC(addr){
   try{
-    const[bh,nh]=await Promise.all([rpc("eth_getBalance",[a.addr,"latest"]),rpc("eth_getTransactionCount",[a.addr,"latest"])]);
-    a.bal=w2e(bh);a.nonce=h2d(nh);a.ok=true;
-  }catch(e){a.err=e.message.slice(0,60);}
-  a.loading=false;renderList();stats();
-  if(sel===a.id)renderDetail();
+    const data="0x70a08231000000000000000000000000"+addr.slice(2).padStart(64,"0");
+    const res=await rpc("eth_call",[{to:USDC,data},"latest"]);
+    return Number(BigInt(res||"0x0"))/1e6;
+  }catch(e){return 0;}
 }
-async function loadT(a){
-  a.txl=true;renderDetail();
+async function loadWallet(a){
+  a.loading=true;a.err=null;renderAgents();
+  try{
+    const[bh,nh,usdc]=await Promise.all([rpc("eth_getBalance",[a.addr,"latest"]),rpc("eth_getTransactionCount",[a.addr,"latest"]),getUSDC(a.addr)]);
+    a.eth=parseInt(bh,16)/1e18;a.nonce=h2d(nh);a.usdc=usdc;a.ok=true;
+  }catch(e){a.err=e.message.slice(0,60);}
+  a.loading=false;renderAgents();updateDashboard();
+  if(selId===a.id)renderDetail(a);
+}
+async function loadTxs(a){
+  a.txl=true;renderDetail(a);
   try{
     const top=h2d(await rpc("eth_blockNumber"));
     const txs=[];
@@ -267,52 +302,168 @@ async function loadT(a){
         if(!blk?.transactions)continue;
         for(const tx of blk.transactions){
           const al=a.addr.toLowerCase();
-          if(tx.from?.toLowerCase()===al||tx.to?.toLowerCase()===al){
-            txs.push({...tx,ts:blk.timestamp?h2d(blk.timestamp):null});
-            if(txs.length>=10)break;
-          }
+          if(tx.from?.toLowerCase()===al||tx.to?.toLowerCase()===al){txs.push({...tx,ts:blk.timestamp?h2d(blk.timestamp):null});if(txs.length>=10)break;}
         }
         if(txs.length>=10)break;
       }
     }
     a.txs=txs;
   }catch(e){a.txs=[];}
-  a.txl=false;renderDetail();
+  a.txl=false;renderDetail(a);
 }
-function pick(id){
-  sel=id;renderList();
-  const a=agents.find(x=>x.id===id);
-  if(a&&!a.txs&&!a.txl)loadT(a);
-  renderDetail();
+function updateDashboard(){
+  const ld=agents.filter(a=>a.ok);
+  document.getElementById("d-usdc").textContent=ld.length?ld.reduce((s,a)=>s+a.usdc,0).toFixed(2)+" USDC":"—";
+  document.getElementById("d-eth").textContent=ld.length?ld.reduce((s,a)=>s+a.eth,0).toFixed(4)+" ETH":"—";
+  document.getElementById("d-count").textContent=agents.length;
 }
-function ref(id){
-  const a=agents.find(x=>x.id===id);
-  if(!a)return;
-  a.txs=null;loadW(a);loadT(a);
+function renderAgents(){
+  const el=document.getElementById("agent-list");
+  if(!agents.length){el.innerHTML='<div class="center">No agents tracked yet.<br>Tap + Add to track a wallet.</div>';return;}
+  el.innerHTML=agents.map(a=>{
+    const[c,bg]=PAL[a.ci];
+    const ini=a.name.split(" ").map(w=>w[0]).slice(0,2).join("");
+    let usdcTxt="—",ethTxt="",tc="tag-amber",tt="loading";
+    if(a.err){tc="tag-red";tt="error";}
+    else if(a.ok){usdcTxt=a.usdc.toFixed(2)+" USDC";ethTxt=a.eth.toFixed(4)+" ETH";tc="tag-green";tt="live";}
+    return`<div class="agent-card${a.id===selId?" active":""}" onclick="selectAgent(${a.id})">
+      <div class="agent-row">
+        <div class="avatar" style="background:${bg};color:${c}">${ini}</div>
+        <div class="agent-info"><div class="agent-name">${a.name}${a.loading?'<span class="spin">↻</span>':""}</div><div class="agent-addr">${sa(a.addr)}</div></div>
+        <div class="agent-right"><div class="agent-bal">${usdcTxt}</div><div class="agent-eth">${ethTxt}</div></div>
+        <button class="btn-rm" onclick="event.stopPropagation();removeAgent(${a.id})">✕</button>
+      </div>
+      <div class="tags"><span class="tag ${tc}">${tt}</span><span class="tag tag-blue">chain 5042002</span><span class="tag tag-gray">${a.addr.slice(0,8)}…</span></div>
+      ${a.err?`<div class="err-box" style="margin-top:8px">${a.err}</div>`:""}
+    </div>`;
+  }).join("");
 }
+function renderDetail(a){
+  const el=document.getElementById("agent-detail");
+  if(!a){el.innerHTML="";return;}
+  const[c,bg]=PAL[a.ci];
+  const ini=a.name.split(" ").map(w=>w[0]).slice(0,2).join("");
+  let txHtml="";
+  if(a.txl)txHtml='<div class="center"><span class="spin" style="font-size:22px">↻</span><br><br>Scanning blocks…</div>';
+  else if(!a.txs)txHtml='<div class="center">Tap Refresh to load transactions.</div>';
+  else if(!a.txs.length)txHtml=`<div class="center">No transactions in last 150 blocks.<br><a href="${EXP}/address/${a.addr}" target="_blank" style="color:#1D9E75">View on Arcscan →</a></div>`;
+  else txHtml=a.txs.map(tx=>{
+    const al=a.addr.toLowerCase();
+    let dir="self";
+    if(tx.from?.toLowerCase()===al&&tx.to?.toLowerCase()!==al)dir="out";
+    else if(tx.to?.toLowerCase()===al&&tx.from?.toLowerCase()!==al)dir="in";
+    const ico=dir==="out"?"↗":dir==="in"?"↙":"⇄";
+    const val=parseInt(tx.value,16)/1e18;
+    const cp=dir==="out"?(tx.to?sa(tx.to):"contract"):(tx.from?sa(tx.from):"?");
+    const lbl=dir==="out"?`To ${cp}`:dir==="in"?`From ${cp}`:"Self";
+    return`<div class="tx-row"><div class="tx-icon ${dir}">${ico}</div><div class="tx-info"><a href="${EXP}/tx/${tx.hash}" target="_blank" class="tx-hash">${sh(tx.hash)}</a><div class="tx-meta">${lbl} · ${ago(tx.ts)}</div></div><div class="tx-amt ${dir}">${(dir==="out"?"−":dir==="in"?"+":"")+val.toFixed(6)} ETH</div></div>`;
+  }).join("");
+  el.innerHTML=`<div class="card" style="margin-top:0">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+      <div class="avatar" style="background:${bg};color:${c};width:44px;height:44px;font-size:14px">${ini}</div>
+      <div>
+        <div style="font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px">${a.name}<span class="tag ${a.ok?"tag-green":a.err?"tag-red":"tag-amber"}">${a.ok?"live":a.err?"error":"…"}</span></div>
+        <div style="font-size:11px;color:#5a5a72;font-family:monospace;word-break:break-all;margin-top:2px">${a.addr}</div>
+      </div>
+    </div>
+    <div class="meta-grid">
+      <div class="meta-item"><div class="meta-label">USDC balance</div><div class="meta-val" style="color:#1D9E75">${a.ok?a.usdc.toFixed(4)+" USDC":"—"}</div></div>
+      <div class="meta-item"><div class="meta-label">ETH balance</div><div class="meta-val">${a.ok?a.eth.toFixed(6)+" ETH":"—"}</div></div>
+      <div class="meta-item"><div class="meta-label">Txs sent</div><div class="meta-val">${a.ok?a.nonce:"—"}</div></div>
+      <div class="meta-item"><div class="meta-label">Explorer</div><div class="meta-val"><a href="${EXP}/address/${a.addr}" target="_blank" style="color:#1D9E75;font-size:12px">Arcscan →</a></div></div>
+    </div>
+    <div class="sep"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div style="font-size:11px;color:#5a5a72;text-transform:uppercase;letter-spacing:.05em">Transaction history</div>
+      <button class="btn btn-outline" style="width:auto;padding:0 12px;height:30px;font-size:12px" onclick="refreshAgent(${a.id})">↻ Refresh</button>
+    </div>
+    ${txHtml}
+  </div>`;
+}
+function selectAgent(id){selId=id;renderAgents();const a=agents.find(x=>x.id===id);if(a&&!a.txs&&!a.txl)loadTxs(a);renderDetail(a);document.getElementById("agent-detail").scrollIntoView({behavior:"smooth"});}
+function refreshAgent(id){const a=agents.find(x=>x.id===id);if(!a)return;a.txs=null;loadWallet(a);loadTxs(a);}
+function showAddAgent(){document.getElementById("add-form").style.display="block";}
+function hideAddAgent(){document.getElementById("add-form").style.display="none";}
 async function addAgent(){
-  const inp=document.getElementById("ai");
-  const em=document.getElementById("em");
-  const val=inp.value.trim();
-  em.innerHTML="";
-  if(!val)return;
-  if(!/^0x[0-9a-fA-F]{40}$/.test(val)){em.innerHTML='<div class="err">Invalid address — needs 0x + 40 hex characters.</div>';return;}
-  if(agents.find(a=>a.addr.toLowerCase()===val.toLowerCase())){em.innerHTML='<div class="err">Already tracking this address.</div>';return;}
+  const addr=document.getElementById("add-addr").value.trim();
+  const name=document.getElementById("add-name").value.trim();
+  const err=document.getElementById("add-err");
+  err.innerHTML="";
+  if(!addr)return;
+  if(!/^0x[0-9a-fA-F]{40}$/.test(addr)){err.innerHTML='<div class="err-box">Invalid address.</div>';return;}
+  if(agents.find(a=>a.addr.toLowerCase()===addr.toLowerCase())){err.innerHTML='<div class="err-box">Already tracking.</div>';return;}
   const id=Date.now();
-  const a={id,name:`Agent #${agents.length+1}`,addr:val,ci:agents.length%PAL.length,bal:0,nonce:0,loading:false,ok:false,err:null,txs:null,txl:false};
-  agents.push(a);sel=id;inp.value="";
-  renderList();renderDetail();stats();
-  await loadW(a);loadT(a);
+  const a={id,name:name||`Agent #${agents.length+1}`,addr,ci:agents.length%PAL.length,eth:0,usdc:0,nonce:0,loading:false,ok:false,err:null,txs:null,txl:false};
+  agents.push(a);selId=id;
+  document.getElementById("add-addr").value="";document.getElementById("add-name").value="";
+  hideAddAgent();renderAgents();updateDashboard();
+  toast("Wallet added, loading data…","info");
+  await loadWallet(a);loadTxs(a);
 }
-function rm(id){
-  agents=agents.filter(a=>a.id!==id);
-  if(sel===id)sel=agents.length?agents[0].id:null;
-  renderList();renderDetail();stats();
+function removeAgent(id){agents=agents.filter(a=>a.id!==id);if(selId===id)selId=agents.length?agents[0].id:null;renderAgents();renderDetail(agents.find(x=>x.id===selId));updateDashboard();toast("Agent removed","info");}
+async function connectWallet(){
+  const btn=document.getElementById("connect-btn");
+  const err=document.getElementById("connect-err");
+  err.innerHTML="";
+  if(!window.ethereum){err.innerHTML='<div class="err-box" style="margin-top:8px">MetaMask not found.</div>';return;}
+  try{
+    btn.textContent="Connecting…";btn.disabled=true;
+    const accounts=await window.ethereum.request({method:"eth_requestAccounts"});
+    connectedAddr=accounts[0];
+    try{await window.ethereum.request({method:"wallet_switchEthereumChain",params:[{chainId:CHAIN_HEX}]});}
+    catch(sw){if(sw.code===4902)await window.ethereum.request({method:"wallet_addEthereumChain",params:[{chainId:CHAIN_HEX,chainName:"Arc Testnet",nativeCurrency:{name:"ETH",symbol:"ETH",decimals:18},rpcUrls:["https://rpc.testnet.arc.network"],blockExplorerUrls:["https://testnet.arcscan.app"]}]});}
+    document.getElementById("wallet-section").style.display="none";
+    document.getElementById("transfer-form").style.display="block";
+    document.getElementById("from-addr").value=connectedAddr;
+    document.getElementById("connected-addr").textContent=sa(connectedAddr);
+    await refreshConnectedUSDC();refreshTransferAgentList();
+    toast("Wallet connected!","ok");
+  }catch(e){err.innerHTML=`<div class="err-box" style="margin-top:8px">${e.message||"Failed"}</div>`;btn.textContent="Connect MetaMask";btn.disabled=false;}
 }
-document.getElementById("ai").addEventListener("keydown",e=>{if(e.key==="Enter")addAgent();});
-renderList();
-renderDetail();
-ping();
+async function refreshConnectedUSDC(){if(!connectedAddr)return;document.getElementById("connected-usdc").textContent=(await getUSDC(connectedAddr)).toFixed(4)+" USDC";}
+function refreshTransferAgentList(){
+  const sel=document.getElementById("to-select");
+  sel.innerHTML='<option value="">Select tracked agent…</option>';
+  agents.forEach(a=>{const o=document.createElement("option");o.value=a.addr;o.textContent=`${a.name} (${sa(a.addr)})`;sel.appendChild(o);});
+  const c=document.createElement("option");c.value="custom";c.textContent="Enter custom address…";sel.appendChild(c);
+}
+function onToChange(){document.getElementById("custom-to-wrap").style.display=document.getElementById("to-select").value==="custom"?"block":"none";}
+function refreshTransferForm(){if(connectedAddr){refreshTransferAgentList();refreshConnectedUSDC();}}
+async function sendUSDC(){
+  const btn=document.getElementById("send-btn");
+  const errEl=document.getElementById("send-err");
+  const resultEl=document.getElementById("tx-result");
+  errEl.innerHTML="";resultEl.innerHTML="";
+  const toSel=document.getElementById("to-select").value;
+  const to=toSel==="custom"?document.getElementById("custom-to").value.trim():toSel;
+  const amount=parseFloat(document.getElementById("send-amount").value);
+  if(!to||!/^0x[0-9a-fA-F]{40}$/.test(to)){errEl.innerHTML='<div class="err-box" style="margin-top:8px">Invalid recipient address.</div>';return;}
+  if(!amount||amount<=0){errEl.innerHTML='<div class="err-box" style="margin-top:8px">Enter a valid amount.</div>';return;}
+  try{
+    btn.textContent="Sending…";btn.disabled=true;
+    const amountUnits=BigInt(Math.round(amount*1e6));
+    const data="0xa9059cbb"+to.slice(2).padStart(64,"0")+amountUnits.toString(16).padStart(64,"0");
+    const txHash=await window.ethereum.request({method:"eth_sendTransaction",params:[{from:connectedAddr,to:USDC,data,chainId:CHAIN_HEX}]});
+    resultEl.innerHTML=`<div class="tx-pending">✅ Sent!<br>Hash: <a href="${EXP}/tx/${txHash}" target="_blank" style="color:#6EB3F7">${sh(txHash)}</a></div>`;
+    toast("Transaction sent!","ok");
+    document.getElementById("send-amount").value="";
+    setTimeout(refreshConnectedUSDC,3000);
+    agents.forEach(a=>{if(a.addr.toLowerCase()===connectedAddr.toLowerCase()||a.addr.toLowerCase()===to.toLowerCase())loadWallet(a);});
+  }catch(e){errEl.innerHTML=`<div class="err-box" style="margin-top:8px">${e.message||"Failed"}</div>`;}
+  btn.textContent="Send USDC";btn.disabled=false;
+}
+async function addArcToMetaMask(){
+  if(!window.ethereum){toast("MetaMask not found","err");return;}
+  try{await window.ethereum.request({method:"wallet_addEthereumChain",params:[{chainId:CHAIN_HEX,chainName:"Arc Testnet",nativeCurrency:{name:"ETH",symbol:"ETH",decimals:18},rpcUrls:["https://rpc.testnet.arc.network"],blockExplorerUrls:["https://testnet.arcscan.app"]}]});toast("Arc testnet added!","ok");}
+  catch(e){toast(e.message||"Failed","err");}
+}
+function renderSettings(){
+  const el=document.getElementById("settings-agents");
+  if(!agents.length){el.innerHTML='<div style="font-size:13px;color:#5a5a72">No agents tracked yet.</div>';return;}
+  el.innerHTML=agents.map(a=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><div><div style="font-size:13px;font-weight:500">${a.name}</div><div style="font-size:11px;color:#5a5a72;font-family:monospace">${sa(a.addr)}</div></div><button class="btn-rm" onclick="removeAgent(${a.id})">✕</button></div>`).join("");
+}
+function clearAllAgents(){if(!confirm("Remove all tracked agents?"))return;agents=[];selId=null;renderAgents();renderDetail(null);updateDashboard();renderSettings();toast("All agents cleared","info");}
+renderAgents();renderDetail(null);ping();setInterval(ping,30000);
 </script>
 </body>
 </html>
