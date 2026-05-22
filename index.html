@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arc Agent Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --bg2: #f7f8f9;
+      --bg3: #f0f1f3;
+      --text: #0d0d0d;
+      --text2: #5a5a6a;
+      --text3: #9a9aaa;
+      --border: rgba(0,0,0,0.08);
+      --border2: rgba(0,0,0,0.14);
+      --green: #1D9E75;
+      --green-bg: #E1F5EE;
+      --green-mid: #5DCAA5;
+      --green-dark: #0F6E56;
+      --blue: #185FA5;
+      --blue-bg: #E6F1FB;
+      --red: #993C1D;
+      --red-bg: #FAECE7;
+      --amber: #854F0B;
+      --amber-bg: #FAEEDA;
+      --purple: #884DB5;
+      --purple-bg: #EEEDFE;
+      --radius: 10px;
+      --radius-sm: 6px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f0f12;
+        --bg2: #18181f;
+        --bg3: #22222c;
+        --text: #f0f0f5;
+        --text2: #9090a8;
+        --text3: #5a5a72;
+        --border: rgba(255,255,255,0.07);
+        --border2: rgba(255,255,255,0.12);
+        --green-bg: #0a2e22;
+        --green-mid: #1D9E75;
+        --green-dark: #5DCAA5;
+        --blue-bg: #0a1e38;
+        --red-bg: #2e100a;
+        --amber-bg: #2e1e06;
+        --purple-bg: #1e1040;
+      }
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Layout */
+    .app { display: grid; grid-template-columns: 320px 1fr; min-height: 100vh; }
+    @media (max-width: 768px) { .app { grid-template-columns: 1fr; } }
+
+    /* Sidebar */
+    .sidebar {
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+    }
+
+    .sidebar-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .logo-dot {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--green);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .logo-dot svg { width: 16px; height: 16px; fill: none; stroke: white; stroke-width: 2; }
+
+    .logo-text .name { font-size: 15px; font-weight: 600; color: var(--text); }
+    .logo-text .sub { font-size: 12px; color: var(--text2); margin-top: 1px; }
+
+    .net-status {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 500;
+      padding: 5px 10px;
+      border-radius: 20px;
+      width: fit-content;
+    }
+    .net-status.ok { background: var(--green-bg); color: var(--green-dark); }
+    .net-status.err { background: var(--red-bg); color: var(--red); }
+    .net-status.wait { background: var(--amber-bg); color: var(--amber); }
+    .net-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+
+    /* Stats */
+    .stats-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stat {
+      background: var(--bg);
+      padding: 14px 16px;
+    }
+    .stat-label { font-size: 11px; color: var(--text3); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .stat-val { font-size: 18px; font-weight: 600; color: var(--text); }
+    .stat-val.green { color: var(--green); }
+
+    /* Add wallet */
+    .add-section { padding: 16px; border-bottom: 1px solid var(--border); }
+    .add-label { font-size: 11px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .input-row { display: flex; gap: 6px; }
+    .addr-input {
+      flex: 1; min-width: 0;
+      height: 36px; padding: 0 10px;
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-sm);
+      background: var(--bg2);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .addr-input::placeholder { font-family: 'Inter', sans-serif; font-size: 12px; color: var(--text3); }
+    .addr-input:focus { border-color: var(--green-mid); }
+
+    .btn-track {
+      height: 36px; padding: 0 14px;
+      background: var(--green);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 13px; font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity 0.15s;
+    }
+    .btn-track:hover { opacity: 0.88; }
+    .btn-track:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .err-banner {
+      margin-top: 8px; padding: 6px 10px;
+      background: var(--red-bg); color: var(--red);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+    }
+
+    /* Agent list */
+    .agent-list { flex: 1; overflow-y: auto; padding: 8px; }
+
+    .empty-state {
+      padding: 32px 16px; text-align: center;
+      color: var(--text3); font-size: 13px;
+    }
+    .empty-icon { font-size: 28px; margin-bottom: 8px; }
+
+    .agent-item {
+      padding: 12px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      border: 1px solid transparent;
+      margin-bottom: 4px;
+      transition: background 0.1s, border-color 0.1s;
+    }
+    .agent-item:hover { background: var(--bg2); }
+    .agent-item.active { background: var(--green-bg); border-color: var(--green-mid); }
+
+    .agent-row { display: flex; align-items: center; gap: 10px; }
+    .agent-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 600; flex-shrink: 0;
+    }
+    .agent-info { flex: 1; min-width: 0; }
+    .agent-name { font-size: 13px; font-weight: 500; color: var(--text); display: flex; align-items: center; gap: 5px; }
+    .agent-addr { font-size: 11px; color: var(--text3); font-family: 'JetBrains Mono', monospace; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .agent-bal-col { text-align: right; flex-shrink: 0; }
+    .agent-bal { font-size: 13px; font-weight: 500; color: var(--text); }
+    .agent-nonce { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+    .agent-tags { display: flex; gap: 4px; margin-top: 8px; flex-wrap: wrap; }
+    .tag { font-size: 11px; padding: 2px 7px; border-radius: 20px; }
+    .tag-green { background: var(--green-bg); color: var(--green-dark); }
+    .tag-blue { background: var(--blue-bg); color: var(--blue); }
+    .tag-red { background: var(--red-bg); color: var(--red); }
+    .tag-amber { background: var(--amber-bg); color: var(--amber); }
+    .tag-gray { background: var(--bg3); color: var(--text2); }
+
+    .btn-remove {
+      background: none; border: none; cursor: pointer;
+      color: var(--text3); padding: 4px; border-radius: 4px;
+< truncated lines 215-476 >
+            }
+          }
+          if (txs.length >= 10) break;
+        }
+      }
+      return txs;
+    } catch (e) { return []; }
+  }
+
+  function updateStats() {
+    const loaded = agents.filter(a => a.loaded);
+    const total = loaded.reduce((s, a) => s + a.bal, 0);
+    document.getElementById("statBal").textContent = loaded.length ? total.toFixed(4) + " ETH" : "—";
+    document.getElementById("statCount").textContent = agents.length;
+  }
+
+  function renderSidebar() {
+    const list = document.getElementById("agentList");
+    if (!agents.length) {
+      list.innerHTML = `<div class="empty-state"><div class="empty-icon">⬡</div><div>Add a wallet address above to start tracking agent activity on Arc testnet.</div></div>`;
+      return;
+    }
+    list.innerHTML = agents.map(a => {
+      const [c, bg] = PALETTES[a.ci];
+      const ini = a.name.split(" ").map(w => w[0]).slice(0, 2).join("");
+      let balTxt = "—", tagCls = "tag-amber", tagTxt = "loading";
+      if (a.err) { tagCls = "tag-red"; tagTxt = "error"; }
+      else if (a.loaded) { balTxt = a.bal.toFixed(4); tagCls = "tag-green"; tagTxt = "live"; }
+      return `<div class="agent-item${a.id === sel ? " active" : ""}" onclick="selectAgent(${a.id})">
+        <div class="agent-row">
+          <div class="agent-avatar" style="background:${bg};color:${c}">${ini}</div>
+          <div class="agent-info">
+            <div class="agent-name">
+              ${a.name}
+              ${a.loading ? '<span class="spin" style="font-size:12px;color:#9a9aaa">↻</span>' : ""}
+            </div>
+            <div class="agent-addr mono">${shortAddr(a.addr)}</div>
+          </div>
+          <div class="agent-bal-col">
+            <div class="agent-bal">${balTxt}</div>
+            ${a.loaded ? `<div class="agent-nonce">nonce: ${a.nonce}</div>` : ""}
+          </div>
+          <button class="btn-remove" onclick="event.stopPropagation();removeAgent(${a.id})" aria-label="Remove">✕</button>
+        </div>
+        <div class="agent-tags">
+          <span class="tag ${tagCls}">${tagTxt}</span>
+          <span class="tag tag-blue">chain 5042002</span>
+          <span class="tag tag-gray mono">${a.addr.slice(0,8)}…</span>
+        </div>
+        ${a.err ? `<div class="err-banner" style="margin-top:8px">${a.err}</div>` : ""}
+      </div>`;
+    }).join("");
+  }
+
+  function renderDetail() {
+    const a = agents.find(x => x.id === sel);
+    document.getElementById("mainEmpty").style.display = a ? "none" : "flex";
+    document.getElementById("detailPanel").style.display = a ? "block" : "none";
+    if (!a) return;
+
+    const [c, bg] = PALETTES[a.ci];
+    const ini = a.name.split(" ").map(w => w[0]).slice(0, 2).join("");
+
+    let txHtml = "";
+    if (a.txsLoading) {
+      txHtml = `<div class="tx-loading"><div class="spin" style="font-size:22px;display:block;margin-bottom:8px">↻</div>Scanning recent blocks for transactions…</div>`;
+    } else if (!a.txs) {
+      txHtml = `<div class="tx-empty">Click refresh to load transactions.</div>`;
+    } else if (!a.txs.length) {
+      txHtml = `<div class="tx-empty">No transactions found in the last 150 blocks.<br><a href="${EXP}/address/${a.addr}" target="_blank" class="meta-link" style="font-size:12px;margin-top:6px;display:inline-block">Check full history on Arcscan →</a></div>`;
+    } else {
+      txHtml = `<div class="tx-list">` + a.txs.map(tx => {
+        const al = a.addr.toLowerCase();
+        let dir = "self";
+        if (tx.from?.toLowerCase() === al && tx.to?.toLowerCase() !== al) dir = "out";
+        else if (tx.to?.toLowerCase() === al && tx.from?.toLowerCase() !== al) dir = "in";
+        const icon = dir === "out" ? "↗" : dir === "in" ? "↙" : "⇄";
+        const val = parseInt(tx.value, 16) / 1e18;
+        const cp = dir === "out" ? (tx.to ? shortAddr(tx.to) : "contract") : (tx.from ? shortAddr(tx.from) : "unknown");
+        const lbl = dir === "out" ? `To ${cp}` : dir === "in" ? `From ${cp}` : `Self`;
+        const amt = (dir === "out" ? "−" : dir === "in" ? "+" : "") + val.toFixed(6) + " ETH";
+        const t = tx.ts ? timeAgo(tx.ts) : `block ${h2d(tx.blockNumber).toLocaleString()}`;
+        return `<div class="tx-row">
+          <div class="tx-icon ${dir}" style="font-size:16px">${icon}</div>
+          <div class="tx-info">
+            <a href="${EXP}/tx/${tx.hash}" target="_blank" class="tx-hash mono">${shortHash(tx.hash)}</a>
+            <div class="tx-meta">${lbl} · ${t}</div>
+          </div>
+          <div class="tx-amount ${dir}">${amt}</div>
+        </div>`;
+      }).join("") + `</div>`;
+    }
+
+    document.getElementById("detailPanel").innerHTML = `
+      <div class="detail-header">
+        <div style="display:flex;align-items:flex-start;gap:14px">
+          <div class="detail-avatar" style="background:${bg};color:${c}">${ini}</div>
+          <div>
+            <div class="detail-name-row">
+              <div class="detail-name">${a.name}</div>
+              ${a.loaded ? `<span class="tag tag-green">live</span>` : a.err ? `<span class="tag tag-red">error</span>` : `<span class="tag tag-amber">loading</span>`}
+            </div>
+            <div class="detail-addr mono">${a.addr}</div>
+          </div>
+        </div>
+        <div class="detail-bal-section">
+          <div class="detail-bal">${a.loaded ? a.bal.toFixed(6) : "—"}</div>
+          <div class="detail-bal-label">ETH · Arc testnet</div>
+        </div>
+      </div>
+
+      <div class="detail-meta">
+        <div class="meta-item">
+          <div class="meta-label">Transactions sent</div>
+          <div class="meta-val">${a.loaded ? a.nonce.toLocaleString() : "—"}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Network</div>
+          <div class="meta-val">Arc testnet</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Explorer</div>
+          <div class="meta-val"><a href="${EXP}/address/${a.addr}" target="_blank" class="meta-link">View on Arcscan →</a></div>
+        </div>
+      </div>
+
+      <div class="faucet-tip">
+        ℹ Get free testnet funds at <a href="https://faucet.circle.com" target="_blank">faucet.circle.com</a>
+      </div>
+
+      <div class="tx-section">
+        <div class="tx-header">
+          <div class="tx-title">Transaction history</div>
+          <button class="btn-refresh" onclick="refreshAgent(${a.id})">↻ Refresh</button>
+        </div>
+        ${txHtml}
+      </div>
+    `;
+  }
+
+  async function loadWallet(a) {
+    a.loading = true; a.err = null;
+    renderSidebar();
+    try {
+      const { bal, nonce } = await fetchWallet(a.addr);
+      a.bal = bal; a.nonce = nonce; a.loaded = true;
+    } catch (e) {
+      a.err = e.message.length > 60 ? e.message.slice(0, 60) + "…" : e.message;
+    }
+    a.loading = false;
+    renderSidebar(); updateStats();
+    if (sel === a.id) renderDetail();
+  }
+
+  async function loadTxs(a) {
+    a.txsLoading = true;
+    if (sel === a.id) renderDetail();
+    try { a.txs = await fetchTxs(a.addr); }
+    catch (e) { a.txs = []; }
+    a.txsLoading = false;
+    if (sel === a.id) renderDetail();
+  }
+
+  function selectAgent(id) {
+    sel = id; renderSidebar();
+    const a = agents.find(x => x.id === id);
+    if (a && !a.txs && !a.txsLoading) loadTxs(a);
+    renderDetail();
+  }
+
+  function refreshAgent(id) {
+    const a = agents.find(x => x.id === id);
+    if (!a) return;
+    a.txs = null;
+    loadWallet(a);
+    loadTxs(a);
+  }
+
+  async function addAgent() {
+    const inp = document.getElementById("addrInput");
+    const errDiv = document.getElementById("addError");
+    const val = inp.value.trim();
+    errDiv.innerHTML = "";
+    if (!val) return;
+    if (!/^0x[0-9a-fA-F]{40}$/.test(val)) {
+      errDiv.innerHTML = `<div class="err-banner">Invalid address — must be 0x + 40 hex characters.</div>`;
+      return;
+    }
+    if (agents.find(a => a.addr.toLowerCase() === val.toLowerCase())) {
+      errDiv.innerHTML = `<div class="err-banner">Already tracking this address.</div>`;
+      return;
+    }
+    const id = Date.now();
+    const a = { id, name: `Agent #${agents.length + 1}`, addr: val, ci: agents.length % PALETTES.length, bal: 0, nonce: 0, loading: false, loaded: false, err: null, txs: null, txsLoading: false };
+    agents.push(a); sel = id; inp.value = "";
+    renderSidebar(); renderDetail(); updateStats();
+    await loadWallet(a);
+    loadTxs(a);
+  }
+
+  function removeAgent(id) {
+    agents = agents.filter(a => a.id !== id);
+    if (sel === id) sel = agents.length ? agents[0].id : null;
+    renderSidebar(); renderDetail(); updateStats();
+  }
+
+  document.getElementById("addrInput").addEventListener("keydown", e => {
+    if (e.key === "Enter") addAgent();
+  });
+
+  ping();
+</script>
+</body>
+  </html>
