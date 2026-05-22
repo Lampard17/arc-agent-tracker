@@ -162,6 +162,8 @@ body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-heigh
     </div>
   </div>
   <div id="transfer-form" style="display:none">
+    <button id="disconnect-btn" style="display:none;width:100%;margin-bottom:8px" class="btn btn-outline" onclick="disconnectWallet()">Disconnect wallet</button>
+    function disconnectWallet(){connectedAddr=null;document.getElementById("wallet-section").style.display="block";document.getElementById("transfer-form").style.display="none";document.getElementById("connect-btn").textContent="Connect MetaMask";document.getElementById("connect-btn").disabled=false;document.getElementById("disconnect-btn").style.display="none";toast("Wallet disconnected","info");}
     <div class="wallet-bar">
       <div>
         <div class="wallet-bar-left">Connected wallet</div>
@@ -239,7 +241,7 @@ body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-heigh
 const EXP="https://testnet.arcscan.app";
 const RPC_PROXY="/api/rpc";
 const USDC="0x3600000000000000000000000000000000000000";
-const CHAIN_HEX="0x4CDDB2";
+const CHAIN_HEX="0x4CEF52";
 const PAL=[["#1D9E75","#0a2e22"],["#6EB3F7","#0a1e38"],["#B07EF5","#1e1040"],["#F5A623","#2e1e06"],["#F0997B","#2e100a"]];
 let agents=[],selId=null,connectedAddr=null;
 async function rpc(m,p=[]){
@@ -416,6 +418,7 @@ async function connectWallet(){
     document.getElementById("transfer-form").style.display="block";
     document.getElementById("from-addr").value=connectedAddr;
     document.getElementById("connected-addr").textContent=sa(connectedAddr);
+    document.getElementById("disconnect-btn").style.display="block";
     await refreshConnectedUSDC();refreshTransferAgentList();
     toast("Wallet connected!","ok");
   }catch(e){err.innerHTML=`<div class="err-box" style="margin-top:8px">${e.message||"Failed"}</div>`;btn.textContent="Connect MetaMask";btn.disabled=false;}
