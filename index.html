@@ -327,8 +327,11 @@ function rm(id){
 }
 
 document.getElementById("ai").addEventListener("keydown",e=>{if(e.key==="Enter")addAgent();});
-renderList();renderDetail();
-ping();
+window.addEventListener('load', function(){
+  renderList();
+  renderDetail();
+  ping();
+});
 </script>
 </body>
 </html>
