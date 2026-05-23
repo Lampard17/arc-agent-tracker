@@ -373,14 +373,29 @@ async function ping(){
     document.getElementById("net-badge").className="badge badge-err";
   }
 }
-
 async function getTokenBal(addr,tokenKey){
   try{
     const t=TOKENS[tokenKey];
     const data="0x70a08231000000000000000000000000"+addr.slice(2).padStart(64,"0");
     const res=await rpc("eth_call",[{to:t.addr,data},"latest"]);
-    return Number(BigInt(res||"0x0"))/Math.pow(10,t.decimals);
-  }catch(e){return 0;}
+    if(!res||res==="0x"||res==="0x0")return 0;
+    const raw=BigInt(res);
+    // Try 6 decimals first (ERC-20 interface)
+    const bal6=Number(raw)/1e6;
+    // If result looks wrong (too large), try 18 decimals
+    if(bal6>1e12)return Number(raw)/1e18;
+    return bal6;
+  }catch(e){
+    // Fallback: for USDC use native eth_getBalance
+    if(tokenKey==="usdc"){
+      try{
+        const bh=await rpc("eth_getBalance",[addr,"latest"]);
+        return parseInt(bh,16)/1e18;
+      }catch(e2){return 0;}
+    }
+    return 0;
+  }
+}
 }
 
 async function loadWallet(a){
