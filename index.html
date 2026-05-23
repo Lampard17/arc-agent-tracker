@@ -528,9 +528,10 @@ async function dbg(){
   if(!addr||!/^0x[0-9a-fA-F]{40}$/.test(addr)){el.innerHTML='<div class="eb">Enter a valid 0x address</div>';return;}
   el.innerHTML='<div class="db">Loading…</div>';
   try{
-    const[er,eu]=await Promise.all([rpc("eth_getBalance",[addr,"latest"]),bof(addr,EURC_A).catch(()=>"error")]);
-    const usdc=parseInt(er,16)/1e18;
-    el.innerHTML=`<div class="db">ETH/USDC balance: ${er}<br>As USDC (/1e18): ${usdc}<br><br>EURC balanceOf: ${typeof eu==="number"?eu+" EURC":"error"}</div>`;
+const data="0x70a08231000000000000000000000000"+addr.slice(2).toLowerCase().padStart(64,"0");
+const[er,euRaw]=await Promise.all([rpc("eth_getBalance",[addr,"latest"]),rpc("eth_call",[{to:EURC_A.toLowerCase(),data},"latest"])]);
+const eu=euRaw&&euRaw!=="0x"?Number(BigInt(euRaw))/1e6:0;
+     el.innerHTML=`<div class="db">USDC: ${(parseInt(er,16)/1e18).toFixed(4)}<br>EURC raw hex: ${euRaw}<br>EURC parsed: ${eu}</div>`;
   }catch(e){el.innerHTML=`<div class="eb">${e.message}</div>`;}
 }
 
