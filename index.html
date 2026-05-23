@@ -163,7 +163,6 @@ body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-heigh
   </div>
   <div id="transfer-form" style="display:none">
     <button id="disconnect-btn" style="display:none;width:100%;margin-bottom:8px" class="btn btn-outline" onclick="disconnectWallet()">Disconnect wallet</button>
-    function disconnectWallet(){connectedAddr=null;document.getElementById("wallet-section").style.display="block";document.getElementById("transfer-form").style.display="none";document.getElementById("connect-btn").textContent="Connect MetaMask";document.getElementById("connect-btn").disabled=false;document.getElementById("disconnect-btn").style.display="none";toast("Wallet disconnected","info");}
     <div class="wallet-bar">
       <div>
         <div class="wallet-bar-left">Connected wallet</div>
@@ -465,6 +464,7 @@ function renderSettings(){
   if(!agents.length){el.innerHTML='<div style="font-size:13px;color:#5a5a72">No agents tracked yet.</div>';return;}
   el.innerHTML=agents.map(a=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><div><div style="font-size:13px;font-weight:500">${a.name}</div><div style="font-size:11px;color:#5a5a72;font-family:monospace">${sa(a.addr)}</div></div><button class="btn-rm" onclick="removeAgent(${a.id})">✕</button></div>`).join("");
 }
+function disconnectWallet(){connectedAddr=null;document.getElementById("wallet-section").style.display="block";document.getElementById("transfer-form").style.display="none";document.getElementById("connect-btn").textContent="Connect MetaMask";document.getElementById("connect-btn").disabled=false;document.getElementById("disconnect-btn").style.display="none";toast("Wallet disconnected","info");}
 function clearAllAgents(){if(!confirm("Remove all tracked agents?"))return;agents=[];selId=null;renderAgents();renderDetail(null);updateDashboard();renderSettings();toast("All agents cleared","info");}
 renderAgents();renderDetail(null);ping();setInterval(ping,30000);
 </script>
