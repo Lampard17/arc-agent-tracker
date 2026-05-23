@@ -59,7 +59,6 @@ body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-heigh
 .tag-red{background:#2e100a;color:#F0997B}
 .tag-blue{background:#0a1e38;color:#6EB3F7}
 .tag-gray{background:#22222c;color:#9090a8}
-.tag-purple{background:#1e1040;color:#B07EF5}
 .spin{display:inline-block;animation:rot 1s linear infinite}
 @keyframes rot{to{transform:rotate(360deg)}}
 .btn-rm{background:none;border:none;cursor:pointer;color:#5a5a72;padding:4px;border-radius:4px;font-size:14px}
@@ -87,19 +86,17 @@ body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-heigh
 .tx-amt.out{color:#F0997B}
 .tx-amt.in{color:#1D9E75}
 .tx-amt.self{color:#6EB3F7}
-/* Wallet modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;display:flex;align-items:flex-end;justify-content:center}
 .modal{background:#18181f;border-radius:16px 16px 0 0;padding:20px;width:100%;max-width:500px}
 .modal-title{font-size:16px;font-weight:600;margin-bottom:4px;text-align:center}
 .modal-sub{font-size:12px;color:#5a5a72;text-align:center;margin-bottom:20px}
-.wallet-option{display:flex;align-items:center;gap:14px;padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);margin-bottom:8px;cursor:pointer;transition:border-color .15s,background .15s}
+.wallet-option{display:flex;align-items:center;gap:14px;padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);margin-bottom:8px;cursor:pointer}
 .wallet-option:hover{border-color:#1D9E75;background:#0a2e22}
 .wallet-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
 .wallet-name{font-size:14px;font-weight:500}
 .wallet-desc{font-size:12px;color:#5a5a72;margin-top:2px}
 .modal-cancel{width:100%;margin-top:8px;padding:12px;border:none;background:none;color:#5a5a72;font-size:13px;cursor:pointer;border-radius:8px}
 .modal-cancel:hover{background:#22222c;color:#f0f0f5}
-/* Connected wallet bar */
 .wallet-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#18181f;border-radius:10px;margin-bottom:16px;border:1px solid rgba(255,255,255,0.07)}
 .wallet-bar-info{flex:1;min-width:0}
 .wallet-bar-label{font-size:11px;color:#5a5a72}
@@ -120,60 +117,44 @@ body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-heigh
 .step-num{width:22px;height:22px;border-radius:50%;background:#1D9E75;color:#fff;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
 .step-text{font-size:13px;color:#9090a8;line-height:1.5}
 .tx-pending{padding:12px;background:#0a1e38;border-radius:8px;font-size:12px;color:#6EB3F7;margin-top:8px;word-break:break-all}
+.debug-box{background:#22222c;border-radius:8px;padding:12px;font-size:11px;font-family:monospace;color:#9090a8;word-break:break-all;margin-top:8px;line-height:1.8}
 </style>
 </head>
 <body>
 
-<!-- WALLET CONNECT MODAL -->
 <div class="modal-overlay" id="wallet-modal" style="display:none" onclick="closeWalletModal(event)">
   <div class="modal">
     <div class="modal-title">Connect Wallet</div>
     <div class="modal-sub">Choose your wallet to connect to Arc testnet</div>
     <div class="wallet-option" onclick="connectWith('metamask')">
       <div class="wallet-icon" style="background:#F6851B22">🦊</div>
-      <div>
-        <div class="wallet-name">MetaMask</div>
-        <div class="wallet-desc">Browser extension & mobile app</div>
-      </div>
+      <div><div class="wallet-name">MetaMask</div><div class="wallet-desc">Browser extension & mobile app</div></div>
     </div>
     <div class="wallet-option" onclick="connectWith('coinbase')">
       <div class="wallet-icon" style="background:#0052FF22">🔵</div>
-      <div>
-        <div class="wallet-name">Coinbase Wallet</div>
-        <div class="wallet-desc">Smart wallet & mobile app</div>
-      </div>
+      <div><div class="wallet-name">Coinbase Wallet</div><div class="wallet-desc">Smart wallet & mobile app</div></div>
     </div>
     <div class="wallet-option" onclick="connectWith('rabby')">
       <div class="wallet-icon" style="background:#7B61FF22">🐰</div>
-      <div>
-        <div class="wallet-name">Rabby Wallet</div>
-        <div class="wallet-desc">Multi-chain browser wallet</div>
-      </div>
+      <div><div class="wallet-name">Rabby Wallet</div><div class="wallet-desc">Multi-chain browser wallet</div></div>
     </div>
     <div class="wallet-option" onclick="connectWith('injected')">
       <div class="wallet-icon" style="background:#1D9E7522">💼</div>
-      <div>
-        <div class="wallet-name">Other Wallet</div>
-        <div class="wallet-desc">Any injected EVM wallet</div>
-      </div>
+      <div><div class="wallet-name">Other Wallet</div><div class="wallet-desc">Any injected EVM wallet</div></div>
     </div>
     <button class="modal-cancel" onclick="closeWalletModal()">Cancel</button>
   </div>
 </div>
 
-<!-- DASHBOARD -->
 <div class="page active" id="page-dashboard">
   <div class="page-header">
-    <div>
-      <div class="page-title">⬡ Arc Agent Tracker</div>
-      <div class="page-sub">Live on-chain · Arc testnet</div>
-    </div>
+    <div><div class="page-title">⬡ Arc Agent Tracker</div><div class="page-sub">Live on-chain · Arc testnet</div></div>
     <div class="badge badge-wait" id="net-badge">Connecting…</div>
   </div>
   <div class="stats">
     <div class="stat"><div class="stat-label">Total USDC</div><div class="stat-val green" id="d-usdc">—</div></div>
     <div class="stat"><div class="stat-label">Total EURC</div><div class="stat-val" id="d-eurc">—</div></div>
-    <div class="stat"><div class="stat-label">Agents tracked</div><div class="stat-val green" id="d-count">0</div></div>
+    <div class="stat"><div class="stat-label">Agents</div><div class="stat-val green" id="d-count">0</div></div>
     <div class="stat"><div class="stat-label">Latest block</div><div class="stat-val" id="d-block">—</div></div>
   </div>
   <div class="card">
@@ -187,13 +168,12 @@ body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-heigh
   </div>
   <div class="card">
     <div class="card-title">Quick start</div>
-    <div class="step"><div class="step-num">1</div><div class="step-text">Go to <strong>Agents</strong> tab and add your Arc testnet wallet address</div></div>
+    <div class="step"><div class="step-num">1</div><div class="step-text">Go to <strong>Agents</strong> tab and add your Arc testnet wallet</div></div>
     <div class="step"><div class="step-num">2</div><div class="step-text">Get free testnet funds at <a href="https://faucet.circle.com" target="_blank" style="color:#1D9E75">faucet.circle.com</a></div></div>
-    <div class="step"><div class="step-num">3</div><div class="step-text">Use <strong>Transfer</strong> tab to send USDC or EURC between wallets</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-text">Use <strong>Transfer</strong> to send USDC or EURC</div></div>
   </div>
 </div>
 
-<!-- AGENTS -->
 <div class="page" id="page-agents">
   <div class="page-header">
     <div><div class="page-title">Agents</div><div class="page-sub">Track wallet addresses</div></div>
@@ -213,7 +193,6 @@ body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-heigh
   <div id="agent-detail"></div>
 </div>
 
-<!-- TRANSFER -->
 <div class="page" id="page-transfer">
   <div class="page-header">
     <div><div class="page-title">Transfer</div><div class="page-sub">Send tokens on Arc testnet</div></div>
@@ -221,7 +200,7 @@ body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-heigh
   <div id="wallet-section">
     <div class="card">
       <div class="card-title">Connect wallet</div>
-      <p style="font-size:13px;color:#9090a8;margin-bottom:14px;line-height:1.6">Connect your wallet to sign and send token transactions directly on Arc testnet.</p>
+      <p style="font-size:13px;color:#9090a8;margin-bottom:14px;line-height:1.6">Connect your wallet to sign and send transactions on Arc testnet.</p>
       <button class="btn btn-green" onclick="openWalletModal()">Connect Wallet</button>
       <div id="connect-err"></div>
     </div>
@@ -233,14 +212,8 @@ body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-heigh
         <div class="wallet-bar-addr" id="connected-addr">—</div>
       </div>
       <div class="wallet-bar-right">
-        <div style="display:flex;gap:8px;font-size:12px">
-          <span style="color:#5a5a72">USDC</span>
-          <span style="color:#1D9E75;font-weight:600" id="connected-usdc">—</span>
-        </div>
-        <div style="display:flex;gap:8px;font-size:12px">
-          <span style="color:#5a5a72">EURC</span>
-          <span style="color:#B07EF5;font-weight:600" id="connected-eurc">—</span>
-        </div>
+        <div style="font-size:12px;color:#1D9E75;font-weight:600"><span id="connected-usdc">—</span> USDC</div>
+        <div style="font-size:12px;color:#B07EF5;font-weight:600"><span id="connected-eurc">—</span> EURC</div>
         <button class="btn btn-danger" style="height:28px;font-size:11px;padding:0 10px;width:auto;margin-top:4px" onclick="disconnectWallet()">Disconnect</button>
       </div>
     </div>
@@ -278,7 +251,6 @@ body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-heigh
   </div>
 </div>
 
-<!-- SETTINGS -->
 <div class="page" id="page-settings">
   <div class="page-header">
     <div><div class="page-title">Settings</div><div class="page-sub">Preferences & info</div></div>
@@ -302,6 +274,13 @@ body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-heigh
     </div>
   </div>
   <div class="card">
+    <div class="card-title">Debug balance</div>
+    <p style="font-size:12px;color:#9090a8;margin-bottom:10px">Enter any wallet address to see raw RPC balance data</p>
+    <div class="input-wrap"><input class="input mono" id="debug-addr" placeholder="0x… wallet address"/></div>
+    <button class="btn btn-outline" onclick="debugBal()">Check raw balances</button>
+    <div id="debug-result"></div>
+  </div>
+  <div class="card">
     <div class="card-title">Tracked agents</div>
     <div id="settings-agents"></div>
     <div class="sep"></div>
@@ -318,7 +297,6 @@ body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-heigh
   </div>
 </div>
 
-<!-- BOTTOM NAV -->
 <nav class="nav">
   <button class="nav-item active" onclick="goPage('dashboard',this)"><div class="nav-icon">🏠</div>Dashboard</button>
   <button class="nav-item" onclick="goPage('agents',this)"><div class="nav-icon">🤖</div>Agents</button>
@@ -329,15 +307,15 @@ body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-heigh
 <script>
 const EXP="https://testnet.arcscan.app";
 const RPC_PROXY="/api/rpc";
+const USDC_ADDR="0x3600000000000000000000000000000000000000";
+const EURC_ADDR="0x89B50855Aa3bE2F677cD6303Cec089B5F319D72a";
 const TOKENS={
-  usdc:{addr:"0x3600000000000000000000000000000000000000",symbol:"USDC",decimals:6,color:"#1D9E75",icon:"💵"},
-  eurc:{addr:"0x89B50855Aa3bE2F677cD6303Cec089B5F319D72a",symbol:"EURC",decimals:6,color:"#B07EF5",icon:"💶"},
+  usdc:{addr:USDC_ADDR,symbol:"USDC",decimals:6,color:"#1D9E75"},
+  eurc:{addr:EURC_ADDR,symbol:"EURC",decimals:6,color:"#B07EF5"},
 };
-const CHAIN_ID=5042002;
 const CHAIN_HEX="0x4CEF52";
-const ARC_CHAIN_PARAMS={chainId:CHAIN_HEX,chainName:"Arc Testnet",nativeCurrency:{name:"USDC",symbol:"USDC",decimals:18},rpcUrls:["https://rpc.testnet.arc.network"],blockExplorerUrls:["https://testnet.arcscan.app"]};
+const ARC_PARAMS={chainId:CHAIN_HEX,chainName:"Arc Testnet",nativeCurrency:{name:"USDC",symbol:"USDC",decimals:18},rpcUrls:["https://rpc.testnet.arc.network"],blockExplorerUrls:["https://testnet.arcscan.app"]};
 const PAL=[["#1D9E75","#0a2e22"],["#6EB3F7","#0a1e38"],["#B07EF5","#1e1040"],["#F5A623","#2e1e06"],["#F0997B","#2e100a"]];
-
 let agents=[],selId=null,connectedAddr=null,connectedWallet=null;
 
 async function rpc(m,p=[]){
@@ -347,6 +325,7 @@ async function rpc(m,p=[]){
   if(d.error)throw new Error(d.error.message);
   return d.result;
 }
+
 const h2d=h=>parseInt(h,16);
 const sa=a=>a.slice(0,8)+"…"+a.slice(-6);
 const sh=h=>h.slice(0,10)+"…"+h.slice(-6);
@@ -373,44 +352,67 @@ async function ping(){
     document.getElementById("net-badge").className="badge badge-err";
   }
 }
+
+// Read ERC-20 balanceOf — returns raw hex
+async function balanceOfRaw(walletAddr,tokenAddr){
+  const data="0x70a08231000000000000000000000000"+walletAddr.slice(2).toLowerCase().padStart(64,"0");
+  return await rpc("eth_call",[{to:tokenAddr,data},"latest"]);
+}
+
+// Parse raw hex balance with given decimals
+function parseRawBal(raw,decimals){
+  if(!raw||raw==="0x"||raw==="0x0")return 0;
+  try{return Number(BigInt(raw))/Math.pow(10,decimals);}
+  catch(e){return 0;}
+}
+
 async function getTokenBal(addr,tokenKey){
   try{
     const t=TOKENS[tokenKey];
-    const data="0x70a08231000000000000000000000000"+addr.slice(2).padStart(64,"0");
-    const res=await rpc("eth_call",[{to:t.addr,data},"latest"]);
-    if(!res||res==="0x"||res==="0x0")return 0;
-    const raw=BigInt(res);
-    // Try 6 decimals first (ERC-20 interface)
-    const bal6=Number(raw)/1e6;
-    // If result looks wrong (too large), try 18 decimals
-    if(bal6>1e12)return Number(raw)/1e18;
-    return bal6;
-  }catch(e){
-    // Fallback: for USDC use native eth_getBalance
-    if(tokenKey==="usdc"){
-      try{
-        const bh=await rpc("eth_getBalance",[addr,"latest"]);
-        return parseInt(bh,16)/1e18;
-      }catch(e2){return 0;}
-    }
-    return 0;
-  }
+    const raw=await balanceOfRaw(addr,t.addr);
+    return parseRawBal(raw,t.decimals);
+  }catch(e){return 0;}
 }
+
+// Debug function — shows raw values from RPC
+async function debugBal(){
+  const addr=document.getElementById("debug-addr").value.trim();
+  const el=document.getElementById("debug-result");
+  if(!addr||!/^0x[0-9a-fA-F]{40}$/.test(addr)){el.innerHTML='<div class="err-box">Enter a valid 0x address</div>';return;}
+  el.innerHTML='<div class="debug-box">Loading…</div>';
+  try{
+    const ethRaw=await rpc("eth_getBalance",[addr,"latest"]);
+    const usdcRaw=await balanceOfRaw(addr,USDC_ADDR);
+    const eurcRaw=await balanceOfRaw(addr,EURC_ADDR);
+    const ethVal=parseInt(ethRaw,16)/1e18;
+    const usdcVal6=parseRawBal(usdcRaw,6);
+    const usdcVal18=parseRawBal(usdcRaw,18);
+    const eurcVal=parseRawBal(eurcRaw,6);
+    el.innerHTML=`<div class="debug-box">
+ETH getBalance raw: ${ethRaw}<br>
+ETH /1e18: ${ethVal}<br><br>
+USDC balanceOf raw: ${usdcRaw}<br>
+USDC /1e6: ${usdcVal6}<br>
+USDC /1e18: ${usdcVal18}<br><br>
+EURC balanceOf raw: ${eurcRaw}<br>
+EURC /1e6: ${eurcVal}
+</div>`;
+  }catch(e){el.innerHTML=`<div class="err-box">${e.message}</div>`;}
 }
 
 async function loadWallet(a){
   a.loading=true;a.err=null;renderAgents();
   try{
-    const[bh,nh,usdc,eurc]=await Promise.all([
+    const[ethRaw,nonceRaw,usdcRaw,eurcRaw]=await Promise.all([
       rpc("eth_getBalance",[a.addr,"latest"]),
       rpc("eth_getTransactionCount",[a.addr,"latest"]),
-      getTokenBal(a.addr,"usdc"),
-      getTokenBal(a.addr,"eurc"),
+      balanceOfRaw(a.addr,USDC_ADDR),
+      balanceOfRaw(a.addr,EURC_ADDR),
     ]);
-    a.ethBal=parseInt(bh,16)/1e18;
-    a.nonce=h2d(nh);
-    a.usdc=usdc;
-    a.eurc=eurc;
+    a.ethBal=parseInt(ethRaw,16)/1e18;
+    a.nonce=h2d(nonceRaw);
+    a.usdc=parseRawBal(usdcRaw,6);
+    a.eurc=parseRawBal(eurcRaw,6);
     a.ok=true;
   }catch(e){a.err=e.message.slice(0,60);}
   a.loading=false;renderAgents();updateDashboard();
@@ -430,7 +432,10 @@ async function loadTxs(a){
         if(!blk?.transactions)continue;
         for(const tx of blk.transactions){
           const al=a.addr.toLowerCase();
-          if(tx.from?.toLowerCase()===al||tx.to?.toLowerCase()===al){txs.push({...tx,ts:blk.timestamp?h2d(blk.timestamp):null});if(txs.length>=10)break;}
+          if(tx.from?.toLowerCase()===al||tx.to?.toLowerCase()===al){
+            txs.push({...tx,ts:blk.timestamp?h2d(blk.timestamp):null});
+            if(txs.length>=10)break;
+          }
         }
         if(txs.length>=10)break;
       }
@@ -507,7 +512,7 @@ function renderDetail(a){
     <div class="token-grid">
       <div class="token-item"><div class="token-icon">💵</div><div class="token-name">USDC</div><div class="token-val" style="color:#1D9E75">${a.ok?a.usdc.toFixed(4):"—"}</div></div>
       <div class="token-item"><div class="token-icon">💶</div><div class="token-name">EURC</div><div class="token-val" style="color:#B07EF5">${a.ok?a.eurc.toFixed(4):"—"}</div></div>
-      <div class="token-item"><div class="token-icon">⛽</div><div class="token-name">ETH (gas)</div><div class="token-val" style="color:#6EB3F7">${a.ok?a.ethBal.toFixed(4):"—"}</div></div>
+      <div class="token-item"><div class="token-icon">⛽</div><div class="token-name">ETH gas</div><div class="token-val" style="color:#6EB3F7">${a.ok?a.ethBal.toFixed(4):"—"}</div></div>
     </div>
     <div class="meta-grid">
       <div class="meta-item"><div class="meta-label">Txs sent</div><div class="meta-val">${a.ok?a.nonce:"—"}</div></div>
@@ -545,8 +550,6 @@ async function addAgent(){
 }
 
 function removeAgent(id){agents=agents.filter(a=>a.id!==id);if(selId===id)selId=agents.length?agents[0].id:null;renderAgents();renderDetail(agents.find(x=>x.id===selId));updateDashboard();toast("Removed","info");}
-
-// ── Wallet modal ──
 function openWalletModal(){document.getElementById("wallet-modal").style.display="flex";}
 function closeWalletModal(e){if(!e||e.target===document.getElementById("wallet-modal"))document.getElementById("wallet-modal").style.display="none";}
 
@@ -554,42 +557,32 @@ async function connectWith(walletType){
   closeWalletModal();
   const errEl=document.getElementById("connect-err");
   errEl.innerHTML="";
-  if(!window.ethereum){
-    errEl.innerHTML='<div class="err-box" style="margin-top:8px">No wallet found. Please install MetaMask or another EVM wallet.</div>';
-    return;
-  }
+  if(!window.ethereum){errEl.innerHTML='<div class="err-box" style="margin-top:8px">No wallet found. Install MetaMask or another EVM wallet.</div>';return;}
   try{
     toast("Connecting…","info");
     const accounts=await window.ethereum.request({method:"eth_requestAccounts"});
-    connectedAddr=accounts[0];
-    connectedWallet=walletType;
-    // Switch to Arc testnet
-    try{
-      await window.ethereum.request({method:"wallet_switchEthereumChain",params:[{chainId:CHAIN_HEX}]});
-    }catch(sw){
-      if(sw.code===4902||sw.code===-32603){
-        await window.ethereum.request({method:"wallet_addEthereumChain",params:[ARC_CHAIN_PARAMS]});
-      }
-    }
+    connectedAddr=accounts[0];connectedWallet=walletType;
+    try{await window.ethereum.request({method:"wallet_switchEthereumChain",params:[{chainId:CHAIN_HEX}]});}
+    catch(sw){if(sw.code===4902||sw.code===-32603)await window.ethereum.request({method:"wallet_addEthereumChain",params:[ARC_PARAMS]});}
     document.getElementById("wallet-section").style.display="none";
     document.getElementById("transfer-form").style.display="block";
     document.getElementById("from-addr").value=connectedAddr;
     document.getElementById("connected-addr").textContent=sa(connectedAddr);
-    const walletNames={metamask:"MetaMask",coinbase:"Coinbase Wallet",rabby:"Rabby",injected:"Wallet"};
-    document.getElementById("connected-via").textContent=walletNames[walletType]||"Wallet";
+    const names={metamask:"MetaMask",coinbase:"Coinbase Wallet",rabby:"Rabby",injected:"Wallet"};
+    document.getElementById("connected-via").textContent=names[walletType]||"Wallet";
     await refreshConnectedBals();
     refreshTransferAgentList();
     toast("Connected!","ok");
-  }catch(e){
-    errEl.innerHTML=`<div class="err-box" style="margin-top:8px">${e.message||"Connection failed"}</div>`;
-  }
+  }catch(e){errEl.innerHTML=`<div class="err-box" style="margin-top:8px">${e.message||"Connection failed"}</div>`;}
 }
 
 async function refreshConnectedBals(){
   if(!connectedAddr)return;
-  const[usdc,eurc]=await Promise.all([getTokenBal(connectedAddr,"usdc"),getTokenBal(connectedAddr,"eurc")]);
-  document.getElementById("connected-usdc").textContent=usdc.toFixed(4);
-  document.getElementById("connected-eurc").textContent=eurc.toFixed(4);
+  try{
+    const[usdcRaw,eurcRaw]=await Promise.all([balanceOfRaw(connectedAddr,USDC_ADDR),balanceOfRaw(connectedAddr,EURC_ADDR)]);
+    document.getElementById("connected-usdc").textContent=parseRawBal(usdcRaw,6).toFixed(4);
+    document.getElementById("connected-eurc").textContent=parseRawBal(eurcRaw,6).toFixed(4);
+  }catch(e){}
 }
 
 function refreshTransferAgentList(){
@@ -633,12 +626,12 @@ function disconnectWallet(){
   document.getElementById("wallet-section").style.display="block";
   document.getElementById("transfer-form").style.display="none";
   document.getElementById("connect-err").innerHTML="";
-  toast("Wallet disconnected","info");
+  toast("Disconnected","info");
 }
 
 async function addArcToWallet(){
   if(!window.ethereum){toast("No wallet found","err");return;}
-  try{await window.ethereum.request({method:"wallet_addEthereumChain",params:[ARC_CHAIN_PARAMS]});toast("Arc testnet added!","ok");}
+  try{await window.ethereum.request({method:"wallet_addEthereumChain",params:[ARC_PARAMS]});toast("Arc testnet added!","ok");}
   catch(e){toast(e.message||"Failed","err");}
 }
 
