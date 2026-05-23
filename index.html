@@ -355,8 +355,11 @@ async function ping(){
 
 // Read ERC-20 balanceOf — returns raw hex
 async function balanceOfRaw(walletAddr,tokenAddr){
-  const data="0x70a08231000000000000000000000000"+walletAddr.slice(2).toLowerCase().padStart(64,"0");
-  return await rpc("eth_call",[{to:tokenAddr,data},"latest"]);
+  const paddedAddr=walletAddr.slice(2).toLowerCase().padStart(64,"0");
+  const data="0x70a08231000000000000000000000000"+paddedAddr;
+  const result=await rpc("eth_call",[{to:tokenAddr.toLowerCase(),data},"latest"]);
+  return result;
+}
 }
 
 // Parse raw hex balance with given decimals
@@ -403,20 +406,20 @@ EURC /1e6: ${eurcVal}
 async function loadWallet(a){
   a.loading=true;a.err=null;renderAgents();
   try{
-    const[ethRaw,nonceRaw,usdcRaw,eurcRaw]=await Promise.all([
+    const[ethRaw,nonceRaw,eurcRaw]=await Promise.all([
       rpc("eth_getBalance",[a.addr,"latest"]),
       rpc("eth_getTransactionCount",[a.addr,"latest"]),
-      balanceOfRaw(a.addr,USDC_ADDR),
       balanceOfRaw(a.addr,EURC_ADDR),
     ]);
-    a.ethBal=parseInt(ethRaw,16)/1e18;
+    a.ethBal=0;
     a.nonce=h2d(nonceRaw);
-    a.usdc=parseRawBal(usdcRaw,6);
+    a.usdc=parseInt(ethRaw,16)/1e18;
     a.eurc=parseRawBal(eurcRaw,6);
     a.ok=true;
   }catch(e){a.err=e.message.slice(0,60);}
   a.loading=false;renderAgents();updateDashboard();
   if(selId===a.id)renderDetail(a);
+}
 }
 
 async function loadTxs(a){
@@ -579,10 +582,14 @@ async function connectWith(walletType){
 async function refreshConnectedBals(){
   if(!connectedAddr)return;
   try{
-    const[usdcRaw,eurcRaw]=await Promise.all([balanceOfRaw(connectedAddr,USDC_ADDR),balanceOfRaw(connectedAddr,EURC_ADDR)]);
-    document.getElementById("connected-usdc").textContent=parseRawBal(usdcRaw,6).toFixed(4);
+    const[ethRaw,eurcRaw]=await Promise.all([
+      rpc("eth_getBalance",[connectedAddr,"latest"]),
+      balanceOfRaw(connectedAddr,EURC_ADDR)
+    ]);
+    document.getElementById("connected-usdc").textContent=(parseInt(ethRaw,16)/1e18).toFixed(4);
     document.getElementById("connected-eurc").textContent=parseRawBal(eurcRaw,6).toFixed(4);
   }catch(e){}
+}
 }
 
 function refreshTransferAgentList(){
