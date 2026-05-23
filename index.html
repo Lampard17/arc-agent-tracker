@@ -294,17 +294,11 @@ async function ping(){
     document.getElementById("nb").className="badge err";
   }
 }
-
 async function bof(addr,contract){
-  try{
-    const url=`https://testnet.arcscan.app/api/v2/addresses/${addr}/token-balances`;
-    const r=await fetch(url);
-    const d=await r.json();
-    const token=d.items?.find(t=>t.token?.address?.toLowerCase()===contract.toLowerCase());
-    if(!token)return 0;
-    const decimals=parseInt(token.token.decimals)||6;
-    return Number(token.value)/Math.pow(10,decimals);
-  }catch(e){return 0;}
+  const data="0x70a08231000000000000000000000000"+addr.slice(2).toLowerCase().padStart(64,"0");
+  const res=await rpc("eth_call",[{to:contract.toLowerCase(),data},"latest"]);
+  if(!res||res==="0x"||res==="0x0")return 0;
+  return Number(BigInt(res))/1e6;
 }
 }
 
