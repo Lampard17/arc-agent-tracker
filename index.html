@@ -19,7 +19,7 @@ body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-heigh
 .badge{font-size:11px;padding:4px 10px;border-radius:20px;font-weight:500}
 .ok{background:#0a2e22;color:#5DCAA5;border:1px solid #1D9E75}
 .wait{background:#2e1e06;color:#EF9F27;border:1px solid #EF9F27}
-.err{background:#2e100a;color:#F0997B;border:1px solid #F0997B}
+.berr{background:#2e100a;color:#F0997B;border:1px solid #F0997B}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
 .stat{background:#18181f;border-radius:8px;padding:12px 14px}
 .sl{font-size:11px;color:#5a5a72;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
@@ -32,15 +32,32 @@ body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-heigh
 .inp::placeholder{color:#5a5a72}
 .il{font-size:12px;color:#9090a8;margin-bottom:6px}
 .iw{margin-bottom:12px}
-.btn{height:40px;padding:0 16px;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;width:100%}
+.btn{height:40px;padding:0 16px;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;width:100%;transition:opacity .15s}
 .bg{background:#1D9E75;color:#fff}
-.bg:hover{background:#17866a}
+.bg:hover{opacity:.85}
 .bg:disabled{opacity:.4;cursor:not-allowed}
 .bo{background:none;border:1px solid rgba(255,255,255,0.12);color:#9090a8}
 .bo:hover{background:#22222c}
 .bd{background:none;border:1px solid #F0997B;color:#F0997B}
 .br{display:flex;gap:8px}
 .br .btn{flex:1}
+/* Login */
+.login-screen{min-height:calc(100vh - 70px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+.login-logo{width:64px;height:64px;border-radius:50%;background:#1D9E75;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 20px}
+.login-title{font-size:22px;font-weight:700;text-align:center;margin-bottom:8px}
+.login-sub{font-size:14px;color:#5a5a72;text-align:center;margin-bottom:32px;line-height:1.6}
+.login-box{width:100%;max-width:360px}
+.divider{display:flex;align-items:center;gap:12px;margin:16px 0;color:#5a5a72;font-size:12px}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:rgba(255,255,255,0.08)}
+.social-btn{display:flex;align-items:center;justify-content:center;gap:10px;height:44px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);background:#18181f;color:#f0f0f5;font-size:13px;font-weight:500;cursor:pointer;width:100%;margin-bottom:8px}
+.social-btn:hover{border-color:rgba(255,255,255,0.3)}
+/* User bar */
+.user-bar{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#18181f;border-radius:10px;margin-bottom:16px;border:1px solid rgba(255,255,255,0.07)}
+.uav{width:36px;height:36px;border-radius:50%;background:#1D9E75;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0;color:#fff}
+.ui{flex:1;min-width:0}
+.un{font-size:13px;font-weight:500}
+.ua{font-size:11px;color:#5a5a72;font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px}
+/* Agents */
 .ac{background:#18181f;border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:14px;cursor:pointer;margin-bottom:8px}
 .ac:hover{border-color:rgba(255,255,255,0.15)}
 .ac.sel{border-color:#1D9E75}
@@ -49,7 +66,7 @@ body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-heigh
 .ai{flex:1;min-width:0}
 .an{font-size:14px;font-weight:500;margin-bottom:2px;display:flex;align-items:center;gap:6px}
 .aa{font-size:11px;color:#5a5a72;font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ag{text-align:right;flex-shrink:0}
+.agr{text-align:right;flex-shrink:0}
 .ab{font-size:13px;font-weight:500;color:#1D9E75}
 .ae{font-size:11px;color:#5a5a72;margin-top:2px}
 .tags{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap}
@@ -75,31 +92,37 @@ body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-heigh
 .txr{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
 .txr:last-child{border-bottom:none}
 .txi{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px}
-.txi.out{background:#2e100a}
-.txi.in{background:#0a2e22}
-.txi.self{background:#0a1e38}
+.txi.out{background:#2e100a}.txi.in{background:#0a2e22}.txi.self{background:#0a1e38}
 .txi-info{flex:1;min-width:0}
 .txh{font-size:11px;font-family:monospace;color:#f0f0f5;text-decoration:none;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .txh:hover{color:#1D9E75}
 .txm{font-size:11px;color:#5a5a72;margin-top:1px}
 .txa{font-size:12px;font-weight:500;flex-shrink:0}
-.txa.out{color:#F0997B}
-.txa.in{color:#1D9E75}
-.txa.self{color:#6EB3F7}
-.mo{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;display:flex;align-items:flex-end;justify-content:center}
-.md{background:#18181f;border-radius:16px 16px 0 0;padding:20px;width:100%;max-width:500px}
-.mt{font-size:16px;font-weight:600;margin-bottom:4px;text-align:center}
-.ms{font-size:12px;color:#5a5a72;text-align:center;margin-bottom:20px}
-.wo{display:flex;align-items:center;gap:14px;padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);margin-bottom:8px;cursor:pointer}
-.wo:hover{border-color:#1D9E75;background:#0a2e22}
-.wi{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-.wn{font-size:14px;font-weight:500}
-.wd{font-size:12px;color:#5a5a72;margin-top:2px}
-.mc{width:100%;margin-top:8px;padding:12px;border:none;background:none;color:#5a5a72;font-size:13px;cursor:pointer;border-radius:8px}
-.mc:hover{background:#22222c}
-.wb{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#18181f;border-radius:10px;margin-bottom:16px;border:1px solid rgba(255,255,255,0.07)}
-.sel{width:100%;height:40px;padding:0 12px;border:1px solid rgba(255,255,255,0.12);border-radius:8px;background:#0f0f12;color:#f0f0f5;font-size:13px}
-.sel:focus{outline:none;border-color:#1D9E75}
+.txa.out{color:#F0997B}.txa.in{color:#1D9E75}.txa.self{color:#6EB3F7}
+/* Swap */
+.swap-box{background:#18181f;border-radius:12px;padding:16px;margin-bottom:12px}
+.swap-token-row{display:flex;align-items:center;justify-content:space-between;background:#22222c;border-radius:8px;padding:12px 14px;margin-bottom:4px}
+.swap-token-left{flex:1}
+.swap-token-label{font-size:11px;color:#5a5a72;margin-bottom:4px}
+.swap-token-inp{font-size:22px;font-weight:600;color:#f0f0f5;background:none;border:none;outline:none;width:100%}
+.swap-token-inp::placeholder{color:#5a5a72}
+.swap-token-right{flex-shrink:0;text-align:right}
+.swap-token-select{display:flex;align-items:center;gap:6px;background:#18181f;border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:6px 10px;cursor:pointer;font-size:13px;font-weight:500}
+.swap-token-select:hover{border-color:#1D9E75}
+.swap-token-bal{font-size:11px;color:#5a5a72;margin-top:4px;text-align:right}
+.swap-arrow{display:flex;justify-content:center;margin:4px 0}
+.swap-arrow-btn{width:32px;height:32px;border-radius:50%;background:#22222c;border:2px solid #18181f;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px}
+.swap-arrow-btn:hover{background:#1D9E75;color:#fff}
+.swap-rate{font-size:12px;color:#5a5a72;text-align:center;margin:8px 0;padding:8px;background:#22222c;border-radius:6px}
+.dex-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.dex-card{background:#18181f;border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:border-color .15s}
+.dex-card:hover{border-color:#1D9E75}
+.dex-icon{font-size:28px;margin-bottom:8px}
+.dex-name{font-size:13px;font-weight:600;margin-bottom:3px}
+.dex-desc{font-size:11px;color:#5a5a72}
+/* Transfer */
+.sel-inp{width:100%;height:40px;padding:0 12px;border:1px solid rgba(255,255,255,0.12);border-radius:8px;background:#0f0f12;color:#f0f0f5;font-size:13px}
+.sel-inp:focus{outline:none;border-color:#1D9E75}
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);padding:10px 18px;border-radius:8px;font-size:13px;font-weight:500;z-index:999;white-space:nowrap;animation:fi .2s}
 @keyframes fi{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 .tok{background:#0a2e22;color:#5DCAA5;border:1px solid #1D9E75}
@@ -112,157 +135,322 @@ body{font-family:system-ui,sans-serif;background:#0f0f12;color:#f0f0f5;min-heigh
 .sn{width:22px;height:22px;border-radius:50%;background:#1D9E75;color:#fff;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
 .st{font-size:13px;color:#9090a8;line-height:1.5}
 .txp{padding:12px;background:#0a1e38;border-radius:8px;font-size:12px;color:#6EB3F7;margin-top:8px;word-break:break-all}
-.db{background:#22222c;border-radius:8px;padding:12px;font-size:11px;font-family:monospace;color:#9090a8;word-break:break-all;margin-top:8px;line-height:1.8}
 </style>
 </head>
 <body>
 
-<div class="mo" id="wmo" style="display:none" onclick="cwm(event)">
-  <div class="md">
-    <div class="mt">Connect Wallet</div>
-    <div class="ms">Choose your wallet for Arc testnet</div>
-    <div class="wo" onclick="cw('metamask')"><div class="wi" style="background:#F6851B22">🦊</div><div><div class="wn">MetaMask</div><div class="wd">Browser extension & mobile</div></div></div>
-    <div class="wo" onclick="cw('coinbase')"><div class="wi" style="background:#0052FF22">🔵</div><div><div class="wn">Coinbase Wallet</div><div class="wd">Smart wallet & mobile app</div></div></div>
-    <div class="wo" onclick="cw('rabby')"><div class="wi" style="background:#7B61FF22">🐰</div><div><div class="wn">Rabby Wallet</div><div class="wd">Multi-chain browser wallet</div></div></div>
-    <div class="wo" onclick="cw('other')"><div class="wi" style="background:#1D9E7522">💼</div><div><div class="wn">Other Wallet</div><div class="wd">Any injected EVM wallet</div></div></div>
-    <button class="mc" onclick="cwm()">Cancel</button>
-  </div>
-</div>
-
-<div class="page active" id="page-dashboard">
-  <div class="ph"><div><div class="pt">⬡ Arc Agent Tracker</div><div class="ps">Live on-chain · Arc testnet</div></div><div class="badge wait" id="nb">Connecting…</div></div>
-  <div class="stats">
-    <div class="stat"><div class="sl">Total USDC</div><div class="sv g" id="d-usdc">—</div></div>
-    <div class="stat"><div class="sl">Total EURC</div><div class="sv" id="d-eurc">—</div></div>
-    <div class="stat"><div class="sl">Agents</div><div class="sv g" id="d-count">0</div></div>
-    <div class="stat"><div class="sl">Latest block</div><div class="sv" id="d-block">—</div></div>
-  </div>
-  <div class="card">
-    <div class="ct">Network</div>
-    <div class="mg">
-      <div class="mi"><div class="ml">Chain ID</div><div class="mv">5042002</div></div>
-      <div class="mi"><div class="ml">Gas token</div><div class="mv">USDC</div></div>
-      <div class="mi"><div class="ml">Block time</div><div class="mv">~0.48s</div></div>
-      <div class="mi"><div class="ml">Explorer</div><div class="mv"><a href="https://testnet.arcscan.app" target="_blank" style="color:#1D9E75;text-decoration:none;font-size:12px">Arcscan →</a></div></div>
+<!-- LOGIN PAGE -->
+<div id="login-page">
+  <div class="login-screen">
+    <div class="login-logo">⬡</div>
+    <div class="login-title">Arc Agent Tracker</div>
+    <div class="login-sub">Live on-chain wallet tracker<br>for Arc testnet</div>
+    <div class="login-box">
+      <div id="email-step">
+        <div class="iw"><div class="il">Email address</div><input class="inp" id="email-inp" type="email" placeholder="you@example.com"/></div>
+        <button class="btn bg" id="email-btn" onclick="sendOTP()">Continue with Email</button>
+        <div id="email-err"></div>
+        <div class="divider">or</div>
+        <button class="social-btn" onclick="loginWallet()">🦊 Connect MetaMask / External Wallet</button>
+        <button class="social-btn" onclick="loginGuest()">👤 Continue as Guest</button>
+      </div>
+      <div id="otp-step" style="display:none">
+        <div style="text-align:center;margin-bottom:20px">
+          <div style="font-size:15px;font-weight:500;margin-bottom:6px">Check your email</div>
+          <div style="font-size:13px;color:#5a5a72">Code sent to <span id="otp-email" style="color:#f0f0f5"></span></div>
+        </div>
+        <div class="iw"><input class="inp" id="otp-inp" type="text" maxlength="6" placeholder="6-digit code" style="text-align:center;font-size:20px;letter-spacing:8px"/></div>
+        <button class="btn bg" id="otp-btn" onclick="verifyOTP()">Verify code</button>
+        <div id="otp-err"></div>
+        <button class="btn bo" style="margin-top:8px" onclick="backToEmail()">← Back</button>
+      </div>
     </div>
   </div>
-  <div class="card">
-    <div class="ct">Quick start</div>
-    <div class="step"><div class="sn">1</div><div class="st">Go to <b>Agents</b> tab and add your Arc testnet wallet</div></div>
-    <div class="step"><div class="sn">2</div><div class="st">Get free funds at <a href="https://faucet.circle.com" target="_blank" style="color:#1D9E75">faucet.circle.com</a></div></div>
-    <div class="step"><div class="sn">3</div><div class="st">Use <b>Transfer</b> to send USDC or EURC</div></div>
-  </div>
 </div>
 
-<div class="page" id="page-agents">
-  <div class="ph"><div><div class="pt">Agents</div><div class="ps">Track wallet addresses</div></div><button class="badge ok" onclick="saf()" style="cursor:pointer;border:none">+ Add</button></div>
-  <div class="card" id="af" style="display:none">
-    <div class="ct">Add agent wallet</div>
-    <div class="iw"><div class="il">Wallet address</div><input class="inp" style="font-family:monospace" id="aa" placeholder="0x… Arc testnet address"/></div>
-    <div class="iw"><div class="il">Label (optional)</div><input class="inp" id="an-inp" placeholder="e.g. Research Agent"/></div>
-    <div class="br"><button class="btn bo" onclick="haf()">Cancel</button><button class="btn bg" onclick="addAgent()">Track wallet</button></div>
-    <div id="ae-err"></div>
-  </div>
-  <div id="al"></div>
-  <div id="ad"></div>
-</div>
+<!-- MAIN APP -->
+<div id="main-app" style="display:none">
 
-<div class="page" id="page-transfer">
-  <div class="ph"><div><div class="pt">Transfer</div><div class="ps">Send tokens on Arc testnet</div></div></div>
-  <div id="ws">
+  <!-- DASHBOARD -->
+  <div class="page active" id="page-dashboard">
+    <div class="ph"><div><div class="pt">⬡ Arc Agent Tracker</div><div class="ps">Live on-chain · Arc testnet</div></div><div class="badge wait" id="nb">Connecting…</div></div>
+    <div class="stats">
+      <div class="stat"><div class="sl">Total USDC</div><div class="sv g" id="d-usdc">—</div></div>
+      <div class="stat"><div class="sl">Total EURC</div><div class="sv" id="d-eurc">—</div></div>
+      <div class="stat"><div class="sl">Agents</div><div class="sv g" id="d-count">0</div></div>
+      <div class="stat"><div class="sl">Latest block</div><div class="sv" id="d-block">—</div></div>
+    </div>
     <div class="card">
-      <div class="ct">Connect wallet</div>
-      <p style="font-size:13px;color:#9090a8;margin-bottom:14px;line-height:1.6">Connect your wallet to send USDC or EURC on Arc testnet.</p>
-      <button class="btn bg" onclick="owm()">Connect Wallet</button>
-      <div id="ce"></div>
-    </div>
-  </div>
-  <div id="tf" style="display:none">
-    <div class="wb">
-      <div style="flex:1;min-width:0"><div style="font-size:11px;color:#5a5a72">Connected via <span id="cv">—</span></div><div style="font-size:12px;font-family:monospace;color:#f0f0f5;margin-top:2px" id="ca">—</div></div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
-        <div style="font-size:12px;color:#1D9E75;font-weight:600"><span id="cu">—</span> USDC</div>
-        <div style="font-size:12px;color:#B07EF5;font-weight:600"><span id="ceu">—</span> EURC</div>
-        <button class="btn bd" style="height:28px;font-size:11px;padding:0 10px;width:auto;margin-top:4px" onclick="dw()">Disconnect</button>
+      <div class="ct">Network</div>
+      <div class="mg">
+        <div class="mi"><div class="ml">Chain ID</div><div class="mv">5042002</div></div>
+        <div class="mi"><div class="ml">Gas token</div><div class="mv">USDC</div></div>
+        <div class="mi"><div class="ml">Block time</div><div class="mv">~0.48s</div></div>
+        <div class="mi"><div class="ml">Explorer</div><div class="mv"><a href="https://testnet.arcscan.app" target="_blank" style="color:#1D9E75;text-decoration:none;font-size:12px">Arcscan →</a></div></div>
       </div>
     </div>
     <div class="card">
-      <div class="ct">Send tokens</div>
-      <div class="iw"><div class="il">Token</div><select class="sel" id="ts"><option value="usdc">USDC — USD Coin</option><option value="eurc">EURC — Euro Coin</option></select></div>
-      <div class="iw"><div class="il">From</div><input class="inp" style="font-family:monospace;opacity:.6" id="fa" readonly/></div>
-      <div class="iw"><div class="il">To</div><select class="sel" id="tos" onchange="otc()"><option value="">Select tracked agent…</option></select></div>
-      <div class="iw" id="ctw" style="display:none"><div class="il">Custom address</div><input class="inp" style="font-family:monospace" id="ct-inp" placeholder="0x…"/></div>
-      <div class="iw"><div class="il">Amount</div><input class="inp" id="sa" type="number" placeholder="0.00" min="0" step="0.01"/></div>
-      <button class="btn bg" onclick="send()" id="sb">Send</button>
-      <div id="se"></div>
-      <div id="sr"></div>
+      <div class="ct">Quick start</div>
+      <div class="step"><div class="sn">1</div><div class="st">Add wallets in <b>Agents</b> tab</div></div>
+      <div class="step"><div class="sn">2</div><div class="st">Get funds at <a href="https://faucet.circle.com" target="_blank" style="color:#1D9E75">faucet.circle.com</a></div></div>
+      <div class="step"><div class="sn">3</div><div class="st">Send or swap tokens from <b>Transfer</b> or <b>Swap</b></div></div>
     </div>
   </div>
-</div>
 
-<div class="page" id="page-settings">
-  <div class="ph"><div><div class="pt">Settings</div><div class="ps">Preferences & info</div></div></div>
-  <div class="card">
-    <div class="ct">Add Arc testnet to wallet</div>
-    <div class="mg">
-      <div class="mi"><div class="ml">Network</div><div class="mv">Arc Testnet</div></div>
-      <div class="mi"><div class="ml">Chain ID</div><div class="mv">5042002</div></div>
-      <div class="mi" style="grid-column:1/-1"><div class="ml">RPC URL</div><div class="mv" style="font-family:monospace;font-size:11px;word-break:break-all">https://rpc.testnet.arc.network</div></div>
-      <div class="mi"><div class="ml">Gas token</div><div class="mv">USDC</div></div>
-      <div class="mi"><div class="ml">Explorer</div><div class="mv" style="font-size:11px;font-family:monospace">testnet.arcscan.app</div></div>
+  <!-- AGENTS -->
+  <div class="page" id="page-agents">
+    <div class="ph"><div><div class="pt">Agents</div><div class="ps">Track wallets</div></div><button class="badge ok" onclick="saf()" style="cursor:pointer;border:none">+ Add</button></div>
+    <div class="card" id="af" style="display:none">
+      <div class="ct">Add wallet</div>
+      <div class="iw"><div class="il">Address</div><input class="inp" style="font-family:monospace" id="aa" placeholder="0x… Arc testnet address"/></div>
+      <div class="iw"><div class="il">Label (optional)</div><input class="inp" id="an-inp" placeholder="e.g. Research Agent"/></div>
+      <div class="br"><button class="btn bo" onclick="haf()">Cancel</button><button class="btn bg" onclick="addAgent()">Track</button></div>
+      <div id="ae-err"></div>
     </div>
-    <button class="btn bg" onclick="atw()">Add to MetaMask</button>
+    <div id="al"></div>
+    <div id="ad"></div>
   </div>
-  <div class="card">
-    <div class="ct">Debug balance</div>
-    <p style="font-size:12px;color:#9090a8;margin-bottom:10px">Check raw RPC response for any address</p>
-    <div class="iw"><input class="inp" style="font-family:monospace" id="da" placeholder="0x… wallet address"/></div>
-    <button class="btn bo" onclick="dbg()">Check raw balances</button>
-    <div id="dr"></div>
-  </div>
-  <div class="card">
-    <div class="ct">Token contracts</div>
-    <div style="font-size:12px;line-height:2;color:#9090a8">
-      <div><span style="color:#1D9E75;font-weight:500">USDC</span> — <span style="font-family:monospace;font-size:11px">0x3600000000000000000000000000000000000000</span></div>
-      <div><span style="color:#B07EF5;font-weight:500">EURC</span> — <span style="font-family:monospace;font-size:11px">0x89B50855Aa3bE2F677cD6303Cec089B5F319D72a</span></div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="ct">Tracked agents</div>
-    <div id="sa-list"></div>
-    <div class="sep"></div>
-    <button class="btn bd" onclick="ca()">Clear all agents</button>
-  </div>
-  <div class="card">
-    <div class="ct">About</div>
-    <div style="font-size:13px;color:#9090a8;line-height:1.8">
-      <div>Arc testnet · Chain 5042002</div>
-      <div style="margin-top:8px"><a href="https://testnet.arcscan.app" target="_blank" style="color:#1D9E75">Arcscan →</a></div>
-      <div><a href="https://faucet.circle.com" target="_blank" style="color:#1D9E75">Circle Faucet →</a></div>
-      <div><a href="https://docs.arc.io" target="_blank" style="color:#1D9E75">Arc Docs →</a></div>
-    </div>
-  </div>
-</div>
 
-<nav class="nav">
-  <button class="nav-item active" onclick="gp('dashboard',this)"><div class="nav-icon">🏠</div>Dashboard</button>
-  <button class="nav-item" onclick="gp('agents',this)"><div class="nav-icon">🤖</div>Agents</button>
-  <button class="nav-item" onclick="gp('transfer',this)"><div class="nav-icon">💸</div>Transfer</button>
-  <button class="nav-item" onclick="gp('settings',this)"><div class="nav-icon">⚙️</div>Settings</button>
-</nav>
+  <!-- TRANSFER -->
+  <div class="page" id="page-transfer">
+    <div class="ph"><div><div class="pt">Transfer</div><div class="ps">Send tokens</div></div></div>
+    <div id="no-wallet-msg" class="center" style="display:none">Connect a wallet to send tokens.</div>
+    <div id="tf">
+      <div class="user-bar" id="tw-bar" style="display:none">
+        <div class="uav" id="tw-av">?</div>
+        <div class="ui"><div class="un" id="tw-name">—</div><div class="ua" id="tw-addr">—</div></div>
+        <div style="text-align:right;flex-shrink:0">
+          <div style="font-size:12px;color:#1D9E75;font-weight:600"><span id="tw-usdc">—</span> USDC</div>
+          <div style="font-size:12px;color:#B07EF5;font-weight:600"><span id="tw-eurc">—</span> EURC</div>
+        </div>
+      </div>
+      <div class="card" id="send-card">
+        <div class="ct">Send tokens</div>
+        <div class="iw"><div class="il">Token</div><select class="sel-inp" id="ts"><option value="usdc">USDC</option><option value="eurc">EURC</option></select></div>
+        <div class="iw"><div class="il">From</div><input class="inp" style="font-family:monospace;opacity:.6" id="fa" readonly/></div>
+        <div class="iw"><div class="il">To</div><select class="sel-inp" id="tos" onchange="otc()"><option value="">Select tracked agent…</option></select></div>
+        <div class="iw" id="ctw" style="display:none"><div class="il">Custom address</div><input class="inp" style="font-family:monospace" id="ct-inp" placeholder="0x…"/></div>
+        <div class="iw"><div class="il">Amount</div><input class="inp" id="sa" type="number" placeholder="0.00" min="0" step="0.01"/></div>
+        <button class="btn bg" onclick="sendTx()" id="sb">Send</button>
+        <div id="se"></div>
+        <div id="sr"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SWAP -->
+  <div class="page" id="page-swap">
+    <div class="ph"><div><div class="pt">Swap</div><div class="ps">Exchange tokens on Arc</div></div></div>
+
+    <!-- Quick swap widget -->
+    <div class="swap-box">
+      <div style="font-size:12px;font-weight:500;color:#5a5a72;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px">Quick swap</div>
+      <div class="swap-token-row">
+        <div class="swap-token-left">
+          <div class="swap-token-label">You pay</div>
+          <input class="swap-token-inp" id="swap-from-amt" type="number" placeholder="0.00" oninput="calcSwap()"/>
+        </div>
+        <div class="swap-token-right">
+          <div class="swap-token-select" onclick="toggleFromToken()">
+            <span id="swap-from-icon">💵</span>
+            <span id="swap-from-sym">USDC</span>
+            <span style="color:#5a5a72;font-size:10px">▼</span>
+          </div>
+          <div class="swap-token-bal" id="swap-from-bal">Bal: —</div>
+        </div>
+      </div>
+      <div class="swap-arrow">
+        <div class="swap-arrow-btn" onclick="flipSwap()">⇅</div>
+      </div>
+      <div class="swap-token-row">
+        <div class="swap-token-left">
+          <div class="swap-token-label">You receive</div>
+          <input class="swap-token-inp" id="swap-to-amt" placeholder="0.00" readonly style="opacity:.7"/>
+        </div>
+        <div class="swap-token-right">
+          <div class="swap-token-select" onclick="toggleToToken()">
+            <span id="swap-to-icon">💶</span>
+            <span id="swap-to-sym">EURC</span>
+            <span style="color:#5a5a72;font-size:10px">▼</span>
+          </div>
+          <div class="swap-token-bal" id="swap-to-bal">Bal: —</div>
+        </div>
+      </div>
+      <div class="swap-rate" id="swap-rate">Enter an amount to see rate</div>
+      <button class="btn bg" style="margin-top:12px" onclick="execSwap()" id="swap-btn">Swap via DEX</button>
+      <div id="swap-err"></div>
+    </div>
+
+    <!-- DEX options -->
+    <div class="card">
+      <div class="ct">Available DEXes on Arc testnet</div>
+      <div class="dex-grid">
+        <div class="dex-card" onclick="openDex('unitflow')">
+          <div class="dex-icon">🔄</div>
+          <div class="dex-name">UnitFlow</div>
+          <div class="dex-desc">Native Arc DEX</div>
+        </div>
+        <div class="dex-card" onclick="openDex('achswap')">
+          <div class="dex-icon">⚡</div>
+          <div class="dex-name">Achswap</div>
+          <div class="dex-desc">V2 & V3 AMM</div>
+        </div>
+        <div class="dex-card" onclick="openDex('curve')">
+          <div class="dex-icon">📈</div>
+          <div class="dex-name">Curve</div>
+          <div class="dex-desc">Stablecoin pools</div>
+        </div>
+        <div class="dex-card" onclick="openDex('uniswap')">
+          <div class="dex-icon">🦄</div>
+          <div class="dex-name">Uniswap</div>
+          <div class="dex-desc">Coming soon</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#5a5a72;text-align:center">Tap any DEX to open it with your tokens pre-selected</div>
+    </div>
+  </div>
+
+  <!-- PROFILE -->
+  <div class="page" id="page-profile">
+    <div class="ph"><div><div class="pt">Profile</div><div class="ps">Account & settings</div></div></div>
+    <div id="profile-content"></div>
+  </div>
+
+  <nav class="nav">
+    <button class="nav-item active" onclick="gp('dashboard',this)"><div class="nav-icon">🏠</div>Home</button>
+    <button class="nav-item" onclick="gp('agents',this)"><div class="nav-icon">🤖</div>Agents</button>
+    <button class="nav-item" onclick="gp('transfer',this)"><div class="nav-icon">💸</div>Transfer</button>
+    <button class="nav-item" onclick="gp('swap',this)"><div class="nav-icon">🔄</div>Swap</button>
+    <button class="nav-item" onclick="gp('profile',this)"><div class="nav-icon">👤</div>Profile</button>
+  </nav>
+
+</div>
 
 <script>
 const EXP="https://testnet.arcscan.app";
-const RPC="https://arc-testnet.g.alchemy.com/v2/6aw-RRxKFqPii2QMSE1jW";
+const RPC_URL="https://arc-testnet.g.alchemy.com/v2/6aw-RRxKFqPii2QMSE1jW";
 const USDC_A="0x3600000000000000000000000000000000000000";
 const EURC_A="0x89B50855Aa3bE2F677cD6303Cec089B5F319D72a";
-const CHAIN="0x4CEF52";
-const ARC={chainId:CHAIN,chainName:"Arc Testnet",nativeCurrency:{name:"USDC",symbol:"USDC",decimals:18},rpcUrls:["https://rpc.testnet.arc.network"],blockExplorerUrls:["https://testnet.arcscan.app"]};
+const CHAIN_HEX="0x4CEF52";
+const ARC_PARAMS={chainId:CHAIN_HEX,chainName:"Arc Testnet",nativeCurrency:{name:"USDC",symbol:"USDC",decimals:18},rpcUrls:["https://rpc.testnet.arc.network"],blockExplorerUrls:["https://testnet.arcscan.app"]};
 const PAL=[["#1D9E75","#0a2e22"],["#6EB3F7","#0a1e38"],["#B07EF5","#1e1040"],["#F5A623","#2e1e06"],["#F0997B","#2e100a"]];
-let agents=[],selId=null,cAddr=null,cWallet=null;
+const TOKENS={usdc:{addr:USDC_A,sym:"USDC",icon:"💵",dec:18},eurc:{addr:EURC_A,sym:"EURC",icon:"💶",dec:6}};
 
+let agents=[],selId=null;
+let walletAddr=null,walletProvider=null;
+let userEmail="Guest",isGuest=false;
+let swapFrom="usdc",swapTo="eurc";
+let pendingEmail="";
+
+// ── Privy-lite: email OTP via fetch ──
+const PRIVY_APP="cmpj8kjk600wl0cjlapm1zvgq";
+
+async function sendOTPEmail(email){
+  const r=await fetch("https://auth.privy.io/api/v1/passwordless/init",{
+    method:"POST",
+    headers:{"Content-Type":"application/json","privy-app-id":PRIVY_APP},
+    body:JSON.stringify({email})
+  });
+  if(!r.ok)throw new Error("Failed to send code");
+}
+
+async function verifyOTPEmail(email,code){
+  const r=await fetch("https://auth.privy.io/api/v1/passwordless/authenticate",{
+    method:"POST",
+    headers:{"Content-Type":"application/json","privy-app-id":PRIVY_APP},
+    body:JSON.stringify({email,code,mode:"login-or-create"})
+  });
+  if(!r.ok)throw new Error("Invalid code");
+  const d=await r.json();
+  return d;
+}
+
+// ── Login ──
+window.sendOTP=async function(){
+  const email=document.getElementById("email-inp").value.trim();
+  const err=document.getElementById("email-err");
+  const btn=document.getElementById("email-btn");
+  err.innerHTML="";
+  if(!email||!email.includes("@")){err.innerHTML='<div class="eb">Enter a valid email.</div>';return;}
+  try{
+    btn.textContent="Sending…";btn.disabled=true;
+    await sendOTPEmail(email);
+    pendingEmail=email;
+    document.getElementById("otp-email").textContent=email;
+    document.getElementById("email-step").style.display="none";
+    document.getElementById("otp-step").style.display="block";
+  }catch(e){
+    err.innerHTML=`<div class="eb">${e.message||"Failed to send code. Try wallet login."}</div>`;
+    btn.textContent="Continue with Email";btn.disabled=false;
+  }
+};
+
+window.verifyOTP=async function(){
+  const code=document.getElementById("otp-inp").value.trim();
+  const err=document.getElementById("otp-err");
+  const btn=document.getElementById("otp-btn");
+  err.innerHTML="";
+  if(!code){err.innerHTML='<div class="eb">Enter the code.</div>';return;}
+  try{
+    btn.textContent="Verifying…";btn.disabled=true;
+    await verifyOTPEmail(pendingEmail,code);
+    userEmail=pendingEmail;
+    isGuest=false;
+    showApp();
+    toast("Welcome! 👋","tok");
+  }catch(e){
+    err.innerHTML=`<div class="eb">${e.message||"Invalid code. Try again."}</div>`;
+    btn.textContent="Verify code";btn.disabled=false;
+  }
+};
+
+window.backToEmail=function(){
+  document.getElementById("otp-step").style.display="none";
+  document.getElementById("email-step").style.display="block";
+  document.getElementById("email-btn").textContent="Continue with Email";
+  document.getElementById("email-btn").disabled=false;
+};
+
+window.loginWallet=async function(){
+  if(!window.ethereum){
+    toast("No wallet found. Install MetaMask.","err");return;
+  }
+  try{
+    const accounts=await window.ethereum.request({method:"eth_requestAccounts"});
+    walletAddr=accounts[0];
+    walletProvider=window.ethereum;
+    try{await window.ethereum.request({method:"wallet_switchEthereumChain",params:[{chainId:CHAIN_HEX}]});}
+    catch(sw){if(sw.code===4902||sw.code===-32603)await window.ethereum.request({method:"wallet_addEthereumChain",params:[ARC_PARAMS]});}
+    userEmail="External Wallet";isGuest=false;
+    showApp();
+    toast("Wallet connected!","tok");
+  }catch(e){toast(e.message||"Connection failed","err");}
+};
+
+window.loginGuest=function(){
+  isGuest=true;userEmail="Guest";
+  showApp();
+  toast("Browsing as guest","inf");
+};
+
+function showLogin(){
+  document.getElementById("login-page").style.display="block";
+  document.getElementById("main-app").style.display="none";
+}
+
+function showApp(){
+  document.getElementById("login-page").style.display="none";
+  document.getElementById("main-app").style.display="block";
+  ping();setInterval(ping,30000);
+  ral();rd(null);
+  renderProfile();
+  updateTransferUI();
+  updateSwapBals();
+}
+
+// ── RPC ──
 async function rpc(m,p=[]){
-  const r=await fetch(RPC,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:m,params:p})});
+  const r=await fetch(RPC_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:m,params:p})});
   if(!r.ok)throw new Error("HTTP "+r.status);
   const d=await r.json();
   if(d.error)throw new Error(d.error.message);
@@ -274,14 +462,25 @@ const sh=h=>h.slice(0,10)+"…"+h.slice(-6);
 function ago(ts){if(!ts)return"?";const d=Math.floor(Date.now()/1000)-ts;if(d<60)return d+"s ago";if(d<3600)return Math.floor(d/60)+"m ago";if(d<86400)return Math.floor(d/3600)+"h ago";return Math.floor(d/86400)+"d ago";}
 function toast(m,t="inf"){const el=document.createElement("div");el.className="toast t"+t;el.textContent=m;document.body.appendChild(el);setTimeout(()=>el.remove(),3000);}
 
-function gp(n,b){
+async function bof(addr,contract){
+  try{
+    const data="0x70a08231000000000000000000000000"+addr.slice(2).toLowerCase().padStart(64,"0");
+    const res=await rpc("eth_call",[{to:contract.toLowerCase(),data},"latest"]);
+    if(!res||res==="0x"||res==="0x0")return 0;
+    return Number(BigInt(res))/1e6;
+  }catch(e){return 0;}
+}
+
+// ── Nav ──
+window.gp=function(n,b){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.querySelectorAll(".nav-item").forEach(x=>x.classList.remove("active"));
   document.getElementById("page-"+n).classList.add("active");
   b.classList.add("active");
-  if(n==="transfer")rtf();
-  if(n==="settings")rs();
-}
+  if(n==="transfer")updateTransferUI();
+  if(n==="profile")renderProfile();
+  if(n==="swap")updateSwapBals();
+};
 
 async function ping(){
   try{
@@ -291,14 +490,8 @@ async function ping(){
     document.getElementById("nb").className="badge ok";
   }catch(e){
     document.getElementById("nb").textContent="RPC offline";
-    document.getElementById("nb").className="badge err";
+    document.getElementById("nb").className="badge berr";
   }
-}
-async function bof(addr,contract){
-  const data="0x70a08231000000000000000000000000"+addr.slice(2).toLowerCase().padStart(64,"0");
-  const res=await rpc("eth_call",[{to:contract.toLowerCase(),data},"latest"]);
-  if(!res||res==="0x"||res==="0x0")return 0;
-  return Number(BigInt(res))/1e6;
 }
 
 async function lw(a){
@@ -346,7 +539,7 @@ function ud(){
 
 function ral(){
   const el=document.getElementById("al");
-  if(!agents.length){el.innerHTML='<div class="center">No agents yet. Tap + Add to track a wallet.</div>';return;}
+  if(!agents.length){el.innerHTML='<div class="center">No agents yet. Tap + Add.</div>';return;}
   el.innerHTML=agents.map(a=>{
     const[c,bg]=PAL[a.ci];
     const ini=a.name.split(" ").map(w=>w[0]).slice(0,2).join("");
@@ -357,7 +550,7 @@ function ral(){
       <div class="ar">
         <div class="av" style="background:${bg};color:${c}">${ini}</div>
         <div class="ai"><div class="an">${a.name}${a.loading?'<span class="spin">↻</span>':""}</div><div class="aa">${sa(a.addr)}</div></div>
-        <div class="ag"><div class="ab">${a.ok?a.usdc.toFixed(2)+" USDC":"—"}</div><div class="ae">${a.ok?a.eurc.toFixed(2)+" EURC":""}</div></div>
+        <div class="agr"><div class="ab">${a.ok?a.usdc.toFixed(2)+" USDC":"—"}</div><div class="ae">${a.ok?a.eurc.toFixed(2)+" EURC":""}</div></div>
         <button class="brm" onclick="event.stopPropagation();ra(${a.id})">✕</button>
       </div>
       <div class="tags"><span class="tag ${tc}">${tt}</span><span class="tag tb">chain 5042002</span><span class="tag tn">${a.addr.slice(0,8)}…</span></div>
@@ -372,7 +565,7 @@ function rd(a){
   const[c,bg]=PAL[a.ci];
   const ini=a.name.split(" ").map(w=>w[0]).slice(0,2).join("");
   let txh="";
-  if(a.txl)txh='<div class="center"><span class="spin" style="font-size:22px">↻</span><br><br>Scanning blocks…</div>';
+  if(a.txl)txh='<div class="center"><span class="spin" style="font-size:22px">↻</span><br><br>Scanning…</div>';
   else if(!a.txs)txh='<div class="center">Tap Refresh to load transactions.</div>';
   else if(!a.txs.length)txh=`<div class="center">No transactions in last 150 blocks.<br><a href="${EXP}/address/${a.addr}" target="_blank" style="color:#1D9E75">View on Arcscan →</a></div>`;
   else txh=a.txs.map(tx=>{
@@ -395,7 +588,7 @@ function rd(a){
     <div class="tkg">
       <div class="tki"><div class="tki-icon">💵</div><div class="tki-name">USDC</div><div class="tki-val" style="color:#1D9E75">${a.ok?a.usdc.toFixed(4):"—"}</div></div>
       <div class="tki"><div class="tki-icon">💶</div><div class="tki-name">EURC</div><div class="tki-val" style="color:#B07EF5">${a.ok?a.eurc.toFixed(4):"—"}</div></div>
-      <div class="tki"><div class="tki-icon">⛽</div><div class="tki-name">Gas</div><div class="tki-val" style="color:#6EB3F7">${a.ok?(a.usdc-0).toFixed(2):"—"}</div></div>
+      <div class="tki"><div class="tki-icon">⛽</div><div class="tki-name">Gas</div><div class="tki-val" style="color:#6EB3F7">${a.ok?a.usdc.toFixed(2):"—"}</div></div>
     </div>
     <div class="mg">
       <div class="mi"><div class="ml">Txs sent</div><div class="mv">${a.ok?a.nonce:"—"}</div></div>
@@ -403,19 +596,19 @@ function rd(a){
     </div>
     <div class="sep"></div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-      <div style="font-size:11px;color:#5a5a72;text-transform:uppercase;letter-spacing:.05em">Transaction history</div>
+      <div style="font-size:11px;color:#5a5a72;text-transform:uppercase;letter-spacing:.05em">Transactions</div>
       <button class="btn bo" style="width:auto;padding:0 12px;height:30px;font-size:12px" onclick="rfr(${a.id})">↻ Refresh</button>
     </div>
     ${txh}
   </div>`;
 }
 
-function sel(id){selId=id;ral();const a=agents.find(x=>x.id===id);if(a&&!a.txs&&!a.txl)lt(a);rd(a);document.getElementById("ad").scrollIntoView({behavior:"smooth"});}
-function rfr(id){const a=agents.find(x=>x.id===id);if(!a)return;a.txs=null;lw(a);lt(a);}
-function saf(){document.getElementById("af").style.display="block";}
-function haf(){document.getElementById("af").style.display="none";}
+window.sel=function(id){selId=id;ral();const a=agents.find(x=>x.id===id);if(a&&!a.txs&&!a.txl)lt(a);rd(a);document.getElementById("ad").scrollIntoView({behavior:"smooth"});}
+window.rfr=function(id){const a=agents.find(x=>x.id===id);if(!a)return;a.txs=null;lw(a);lt(a);}
+window.saf=function(){document.getElementById("af").style.display="block";}
+window.haf=function(){document.getElementById("af").style.display="none";}
 
-async function addAgent(){
+window.addAgent=async function(){
   const addr=document.getElementById("aa").value.trim();
   const name=document.getElementById("an-inp").value.trim();
   const err=document.getElementById("ae-err");
@@ -427,43 +620,33 @@ async function addAgent(){
   const a={id,name:name||"Agent #"+(agents.length+1),addr,ci:agents.length%PAL.length,usdc:0,eurc:0,nonce:0,loading:false,ok:false,err:null,txs:null,txl:false};
   agents.push(a);selId=id;
   document.getElementById("aa").value="";document.getElementById("an-inp").value="";
-  haf();ral();ud();
+  window.haf();ral();ud();
   toast("Wallet added, loading…","inf");
   await lw(a);lt(a);
-}
+};
 
-function ra(id){agents=agents.filter(a=>a.id!==id);if(selId===id)selId=agents.length?agents[0].id:null;ral();rd(agents.find(x=>x.id===selId));ud();toast("Removed","inf");}
-function owm(){document.getElementById("wmo").style.display="flex";}
-function cwm(e){if(!e||e.target===document.getElementById("wmo"))document.getElementById("wmo").style.display="none";}
+window.ra=function(id){agents=agents.filter(a=>a.id!==id);if(selId===id)selId=agents.length?agents[0].id:null;ral();rd(agents.find(x=>x.id===selId));ud();toast("Removed","inf");}
 
-async function cw(wt){
-  cwm();
-  const errEl=document.getElementById("ce");
-  errEl.innerHTML="";
-  if(!window.ethereum){errEl.innerHTML='<div class="eb" style="margin-top:8px">No wallet found. Install MetaMask or another EVM wallet.</div>';return;}
+// ── Transfer ──
+async function updateTransferUI(){
+  if(!walletAddr){
+    document.getElementById("no-wallet-msg").style.display="block";
+    document.getElementById("tw-bar").style.display="none";
+    document.getElementById("send-card").style.display="none";
+    return;
+  }
+  document.getElementById("no-wallet-msg").style.display="none";
+  document.getElementById("tw-bar").style.display="flex";
+  document.getElementById("send-card").style.display="block";
+  document.getElementById("fa").value=walletAddr;
+  document.getElementById("tw-addr").textContent=sa(walletAddr);
+  document.getElementById("tw-name").textContent=userEmail;
+  document.getElementById("tw-av").textContent=userEmail.slice(0,2).toUpperCase();
+  rtl();
   try{
-    toast("Connecting…","inf");
-    const accounts=await window.ethereum.request({method:"eth_requestAccounts"});
-    cAddr=accounts[0];cWallet=wt;
-    try{await window.ethereum.request({method:"wallet_switchEthereumChain",params:[{chainId:CHAIN}]});}
-    catch(sw){if(sw.code===4902||sw.code===-32603)await window.ethereum.request({method:"wallet_addEthereumChain",params:[ARC]});}
-    document.getElementById("ws").style.display="none";
-    document.getElementById("tf").style.display="block";
-    document.getElementById("fa").value=cAddr;
-    document.getElementById("ca").textContent=sa(cAddr);
-    const names={metamask:"MetaMask",coinbase:"Coinbase Wallet",rabby:"Rabby",other:"Wallet"};
-    document.getElementById("cv").textContent=names[wt]||"Wallet";
-    await rcb();rtl();
-    toast("Connected!","tok");
-  }catch(e){errEl.innerHTML=`<div class="eb" style="margin-top:8px">${e.message||"Connection failed"}</div>`;}
-}
-
-async function rcb(){
-  if(!cAddr)return;
-  try{
-    const[er,eu]=await Promise.all([rpc("eth_getBalance",[cAddr,"latest"]),bof(cAddr,EURC_A)]);
-    document.getElementById("cu").textContent=(parseInt(er,16)/1e18).toFixed(4);
-    document.getElementById("ceu").textContent=eu.toFixed(4);
+    const[er,eu]=await Promise.all([rpc("eth_getBalance",[walletAddr,"latest"]),bof(walletAddr,EURC_A)]);
+    document.getElementById("tw-usdc").textContent=(parseInt(er,16)/1e18).toFixed(4);
+    document.getElementById("tw-eurc").textContent=eu.toFixed(4);
   }catch(e){}
 }
 
@@ -473,19 +656,17 @@ function rtl(){
   agents.forEach(a=>{const o=document.createElement("option");o.value=a.addr;o.textContent=a.name+" ("+sa(a.addr)+")";s.appendChild(o);});
   const c=document.createElement("option");c.value="custom";c.textContent="Enter custom address…";s.appendChild(c);
 }
+window.otc=function(){document.getElementById("ctw").style.display=document.getElementById("tos").value==="custom"?"block":"none";}
 
-function otc(){document.getElementById("ctw").style.display=document.getElementById("tos").value==="custom"?"block":"none";}
-function rtf(){if(cAddr){rtl();rcb();}}
-
-async function send(){
+window.sendTx=async function(){
   const btn=document.getElementById("sb");
   const errEl=document.getElementById("se");
   const resEl=document.getElementById("sr");
   errEl.innerHTML="";resEl.innerHTML="";
+  if(!walletAddr||!walletProvider){errEl.innerHTML='<div class="eb">No wallet connected. Login with wallet first.</div>';return;}
   const tk=document.getElementById("ts").value;
   const taddr=tk==="usdc"?USDC_A:EURC_A;
   const tsym=tk==="usdc"?"USDC":"EURC";
-  const tdec=6;
   const toSel=document.getElementById("tos").value;
   const to=toSel==="custom"?document.getElementById("ct-inp").value.trim():toSel;
   const amount=parseFloat(document.getElementById("sa").value);
@@ -493,49 +674,163 @@ async function send(){
   if(!amount||amount<=0){errEl.innerHTML='<div class="eb" style="margin-top:8px">Enter a valid amount.</div>';return;}
   try{
     btn.textContent="Sending…";btn.disabled=true;
-    const units=BigInt(Math.round(amount*Math.pow(10,tdec)));
+    const units=BigInt(Math.round(amount*(tk==="usdc"?1e18:1e6)));
     const data="0xa9059cbb"+to.slice(2).padStart(64,"0")+units.toString(16).padStart(64,"0");
-    const txHash=await window.ethereum.request({method:"eth_sendTransaction",params:[{from:cAddr,to:taddr,data}]});
+    const txHash=await walletProvider.request({method:"eth_sendTransaction",params:[{from:walletAddr,to:taddr,data}]});
     resEl.innerHTML=`<div class="txp">✅ ${tsym} sent!<br>Hash: <a href="${EXP}/tx/${txHash}" target="_blank" style="color:#6EB3F7">${sh(txHash)}</a></div>`;
     toast(tsym+" sent!","tok");
     document.getElementById("sa").value="";
-    setTimeout(rcb,3000);
-    agents.forEach(a=>{if(a.addr.toLowerCase()===cAddr.toLowerCase()||a.addr.toLowerCase()===to.toLowerCase())lw(a);});
+    setTimeout(updateTransferUI,3000);
+    agents.forEach(a=>{if(a.addr.toLowerCase()===walletAddr.toLowerCase()||a.addr.toLowerCase()===to.toLowerCase())lw(a);});
   }catch(e){errEl.innerHTML=`<div class="eb" style="margin-top:8px">${e.message||"Failed"}</div>`;}
   btn.textContent="Send";btn.disabled=false;
-}
+};
 
-function dw(){cAddr=null;cWallet=null;document.getElementById("ws").style.display="block";document.getElementById("tf").style.display="none";document.getElementById("ce").innerHTML="";toast("Disconnected","inf");}
-
-async function atw(){
-  if(!window.ethereum){toast("No wallet found","err");return;}
-  try{await window.ethereum.request({method:"wallet_addEthereumChain",params:[ARC]});toast("Arc testnet added!","tok");}
-  catch(e){toast(e.message||"Failed","err");}
-}
-
-function rs(){
-  const el=document.getElementById("sa-list");
-  if(!agents.length){el.innerHTML='<div style="font-size:13px;color:#5a5a72">No agents tracked yet.</div>';return;}
-  el.innerHTML=agents.map(a=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><div><div style="font-size:13px;font-weight:500">${a.name}</div><div style="font-size:11px;color:#5a5a72;font-family:monospace">${sa(a.addr)}</div></div><button class="brm" onclick="ra(${a.id})">✕</button></div>`).join("");
-}
-
-function ca(){if(!confirm("Remove all agents?"))return;agents=[];selId=null;ral();rd(null);ud();rs();toast("Cleared","inf");}
-
-async function dbg(){
-  const addr=document.getElementById("da").value.trim();
-  const el=document.getElementById("dr");
-  if(!addr||!/^0x[0-9a-fA-F]{40}$/.test(addr)){el.innerHTML='<div class="eb">Enter a valid 0x address</div>';return;}
-  el.innerHTML='<div class="db">Loading…</div>';
+// ── Swap ──
+async function updateSwapBals(){
+  if(!walletAddr)return;
   try{
-const data="0x70a08231000000000000000000000000"+addr.slice(2).toLowerCase().padStart(64,"0");
-const[er,euRaw]=await Promise.all([rpc("eth_getBalance",[addr,"latest"]),rpc("eth_call",[{to:EURC_A.toLowerCase(),data},"latest"])]);
-const eu=euRaw&&euRaw!=="0x"?Number(BigInt(euRaw))/1e6:0;
-     el.innerHTML=`<div class="db">USDC: ${(parseInt(er,16)/1e18).toFixed(4)}<br>EURC raw hex: ${euRaw}<br>EURC parsed: ${eu}</div>`;
-  }catch(e){el.innerHTML=`<div class="eb">${e.message}</div>`;}
+    const[er,eu]=await Promise.all([rpc("eth_getBalance",[walletAddr,"latest"]),bof(walletAddr,EURC_A)]);
+    const usdc=(parseInt(er,16)/1e18).toFixed(4);
+    const eurc=eu.toFixed(4);
+    document.getElementById("swap-from-bal").textContent=`Bal: ${swapFrom==="usdc"?usdc:eurc} ${swapFrom.toUpperCase()}`;
+    document.getElementById("swap-to-bal").textContent=`Bal: ${swapTo==="usdc"?usdc:eurc} ${swapTo.toUpperCase()}`;
+  }catch(e){}
 }
 
-ral();rd(null);ping();setInterval(ping,30000);
+window.calcSwap=function(){
+  const amt=parseFloat(document.getElementById("swap-from-amt").value)||0;
+  if(!amt){document.getElementById("swap-to-amt").value="";document.getElementById("swap-rate").textContent="Enter an amount to see rate";return;}
+  // Mock rate — in production this would call DEX router
+  const rate=swapFrom==="usdc"?0.92:1.085; // approx USDC/EURC rate
+  const out=(amt*rate).toFixed(4);
+  document.getElementById("swap-to-amt").value=out;
+  document.getElementById("swap-rate").textContent=`1 ${swapFrom.toUpperCase()} ≈ ${rate} ${swapTo.toUpperCase()} · Rate via Achswap`;
+};
+
+window.flipSwap=function(){
+  const tmp=swapFrom;swapFrom=swapTo;swapTo=tmp;
+  document.getElementById("swap-from-icon").textContent=TOKENS[swapFrom].icon;
+  document.getElementById("swap-from-sym").textContent=TOKENS[swapFrom].sym;
+  document.getElementById("swap-to-icon").textContent=TOKENS[swapTo].icon;
+  document.getElementById("swap-to-sym").textContent=TOKENS[swapTo].sym;
+  document.getElementById("swap-from-amt").value="";
+  document.getElementById("swap-to-amt").value="";
+  document.getElementById("swap-rate").textContent="Enter an amount to see rate";
+  updateSwapBals();
+};
+
+window.toggleFromToken=function(){
+  swapFrom=swapFrom==="usdc"?"eurc":"usdc";
+  if(swapFrom===swapTo)swapTo=swapFrom==="usdc"?"eurc":"usdc";
+  document.getElementById("swap-from-icon").textContent=TOKENS[swapFrom].icon;
+  document.getElementById("swap-from-sym").textContent=TOKENS[swapFrom].sym;
+  document.getElementById("swap-to-icon").textContent=TOKENS[swapTo].icon;
+  document.getElementById("swap-to-sym").textContent=TOKENS[swapTo].sym;
+  updateSwapBals();
+};
+
+window.toggleToToken=function(){
+  swapTo=swapTo==="usdc"?"eurc":"usdc";
+  if(swapTo===swapFrom)swapFrom=swapTo==="usdc"?"eurc":"usdc";
+  document.getElementById("swap-from-icon").textContent=TOKENS[swapFrom].icon;
+  document.getElementById("swap-from-sym").textContent=TOKENS[swapFrom].sym;
+  document.getElementById("swap-to-icon").textContent=TOKENS[swapTo].icon;
+  document.getElementById("swap-to-sym").textContent=TOKENS[swapTo].sym;
+  updateSwapBals();
+};
+
+window.execSwap=function(){
+  // Open best DEX with tokens pre-selected
+  const from=TOKENS[swapFrom].addr;
+  const to=TOKENS[swapTo].addr;
+  const amt=document.getElementById("swap-from-amt").value||"";
+  // UnitFlow supports URL params
+  const url=`https://app.unitflow.finance/?inputCurrency=${from}&outputCurrency=${to}${amt?"&exactAmount="+amt:""}`;
+  window.open(url,"_blank");
+  toast("Opening UnitFlow…","inf");
+};
+
+window.openDex=function(dex){
+  const from=TOKENS[swapFrom].addr;
+  const to=TOKENS[swapTo].addr;
+  const urls={
+    unitflow:`https://app.unitflow.finance/?inputCurrency=${from}&outputCurrency=${to}`,
+    achswap:`https://trade.achswap.app/?inputCurrency=${from}&outputCurrency=${to}`,
+    curve:"https://curve.fi/#/arc-testnet/swap",
+    uniswap:"https://app.uniswap.org"
+  };
+  const url=urls[dex];
+  if(url){window.open(url,"_blank");toast("Opening "+dex+"…","inf");}
+  else toast("Coming soon","inf");
+};
+
+// ── Profile ──
+function renderProfile(){
+  const el=document.getElementById("profile-content");
+  const initials=userEmail.slice(0,2).toUpperCase();
+  el.innerHTML=`
+    <div class="user-bar" style="margin-bottom:16px">
+      <div class="uav">${initials}</div>
+      <div class="ui">
+        <div class="un">${userEmail}</div>
+        <div class="ua">${walletAddr?sa(walletAddr):isGuest?"Guest — no wallet":"No wallet connected"}</div>
+      </div>
+    </div>
+    ${walletAddr?`
+    <div class="card">
+      <div class="ct">Wallet</div>
+      <div class="mg">
+        <div class="mi" style="grid-column:1/-1"><div class="ml">Address</div><div class="mv" style="font-family:monospace;font-size:11px;word-break:break-all">${walletAddr}</div></div>
+      </div>
+      <button class="btn bo" onclick="copyAddr()" style="margin-bottom:8px">Copy address</button>
+      <a href="${EXP}/address/${walletAddr}" target="_blank" style="display:block"><button class="btn bo">View on Arcscan →</button></a>
+    </div>`:`
+    <div class="card">
+      <div class="ct">Connect wallet</div>
+      <p style="font-size:13px;color:#9090a8;margin-bottom:12px;line-height:1.6">Connect a wallet to send and swap tokens.</p>
+      <button class="btn bg" onclick="loginWallet()">Connect MetaMask</button>
+    </div>`}
+    <div class="card">
+      <div class="ct">Testnet resources</div>
+      <a href="https://faucet.circle.com" target="_blank" style="display:block;margin-bottom:8px"><button class="btn bg">Get testnet USDC/EURC →</button></a>
+      <a href="${EXP}" target="_blank" style="display:block"><button class="btn bo">Open Arcscan →</button></a>
+    </div>
+    <div class="card">
+      <button class="btn bd" onclick="logout()">Sign out</button>
+    </div>
+  `;
+}
+
+window.copyAddr=function(){
+  if(!walletAddr)return;
+  navigator.clipboard.writeText(walletAddr).then(()=>toast("Copied!","tok")).catch(()=>toast("Copy failed","err"));
+};
+
+window.logout=function(){
+  walletAddr=null;walletProvider=null;userEmail="Guest";isGuest=false;
+  agents=[];selId=null;
+  document.getElementById("email-inp").value="";
+  document.getElementById("otp-inp").value="";
+  document.getElementById("email-step").style.display="block";
+  document.getElementById("otp-step").style.display="none";
+  document.getElementById("email-btn").textContent="Continue with Email";
+  document.getElementById("email-btn").disabled=false;
+  showLogin();
+  toast("Signed out","inf");
+};
+
+// ── Init ──
+// Check if already connected via MetaMask
+if(window.ethereum){
+  window.ethereum.request({method:"eth_accounts"}).then(accounts=>{
+    if(accounts.length>0){
+      walletAddr=accounts[0];
+      walletProvider=window.ethereum;
+      userEmail="External Wallet";
+    }
+  }).catch(()=>{});
+}
 </script>
 </body>
 </html>
-
